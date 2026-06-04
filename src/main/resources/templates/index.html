@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Portal do Cidadão</title>
+</head>
+<body>
+
+<h1>Portal do Cidadão</h1>
+
+<hr>
+
+<h2>Menu Principal</h2>
+
+<ul>
+    <li>
+        <a th:href="@{/solicitacoes/nova}">
+            Nova Solicitação
+        </a>
+    </li>
+
+    <li>
+        <a th:href="@{/solicitacoes}">
+            Consultar Solicitações
+        </a>
+    </li>
+
+    <li>
+        <a th:href="@{/users}">
+            Usuários
+        </a>
+    </li>
+
+    <li>
+        <a th:href="@{/admin}">
+            Painel Administrativo
+        </a>
+    </li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Solicitação</title>
+
+    <style>
+
+        body{
+            font-family: Arial, sans-serif;
+            margin:40px;
+        }
+
+        .card{
+            border:1px solid #ccc;
+            border-radius:8px;
+            padding:20px;
+            max-width:900px;
+        }
+
+        .linha{
+            margin-bottom:15px;
+        }
+
+        .titulo{
+            font-weight:bold;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        table, th, td{
+            border:1px solid #ccc;
+        }
+
+        th, td{
+            padding:10px;
+            text-align:left;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h1>Detalhes da Solicitação</h1>
+
+<div class="card">
+
+    <div class="linha">
+        <span class="titulo">Protocolo:</span>
+        <span th:text="${solicitacao.protocolo}"></span>
+    </div>
+
+    <div class="linha">
+        <span class="titulo">Categoria:</span>
+        <span th:text="${solicitacao.categoria}"></span>
+    </div>
+
+    <div class="linha">
+        <span class="titulo">Status:</span>
+        <span th:text="${solicitacao.status}"></span>
+    </div>
+
+    <div class="linha">
+        <span class="titulo">Prioridade:</span>
+        <span th:text="${solicitacao.prioridade}"></span>
+    </div>
+
+    <div class="linha">
+        <span class="titulo">Bairro:</span>
+        <span th:text="${solicitacao.bairro}"></span>
+    </div>
+
+    <div class="linha">
+        <span class="titulo">Descrição:</span>
+        <p th:text="${solicitacao.descricao}"></p>
+    </div>
+
+    <div class="linha">
+        <span class="titulo">Data de Criação:</span>
+        <span th:text="${solicitacao.dataCriacao}"></span>
+    </div>
+
+    <div class="linha">
+        <span class="titulo">Prazo:</span>
+        <span th:text="${solicitacao.prazo}"></span>
+    </div>
+
+    <div class="linha">
+        <span class="titulo">Atrasado:</span>
+        <span th:text="${solicitacao.atrasado ? 'SIM' : 'NÃO'}"></span>
+    </div>
+
+</div>
+
+<h2>Histórico</h2>
+
+<table>
+
+    <thead>
+    <tr>
+        <th>Status</th>
+        <th>Responsável</th>
+        <th>Comentário</th>
+        <th>Data</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr th:each="h : ${solicitacao.historico}">
+        <td th:text="${h.status}"></td>
+        <td th:text="${h.responsavel}"></td>
+        <td th:text="${h.comentario}"></td>
+        <td th:text="${h.data}"></td>
+    </tr>
+
+    </tbody>
+
+</table>
+
+<br>
+
+<a th:href="@{/solicitacoes}">
+    Voltar para lista
+</a>
+
+</body>
+</html>

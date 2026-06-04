@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitações</title>
+</head>
+<body>
+
+<h1>Solicitações</h1>
+
+<a th:href="@{/solicitacoes/nova}">
+    Nova Solicitação
+</a>
+
+<br><br>
+
+<table border="1">
+
+    <tr>
+        <th>Protocolo</th>
+        <th>Categoria</th>
+        <th>Status</th>
+        <th>Bairro</th>
+    </tr>
+
+    <tr th:each="s : ${solicitacoes}">
+        <td th:text="${s.protocolo}"></td>
+        <td th:text="${s.categoria}"></td>
+        <td th:text="${s.status}"></td>
+        <td th:text="${s.bairro}"></td>
+    </tr>
+
+</table>
+
+</body>
+</html>

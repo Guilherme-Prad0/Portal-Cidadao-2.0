@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova Solicitação</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin:40px;
+        }
+
+        form{
+            max-width:700px;
+        }
+
+        label{
+            display:block;
+            margin-top:15px;
+            font-weight:bold;
+        }
+
+        input, select, textarea{
+            width:100%;
+            padding:10px;
+            margin-top:5px;
+            box-sizing:border-box;
+        }
+
+        button{
+            margin-top:20px;
+            padding:12px 20px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Nova Solicitação</h1>
+
+<form th:action="@{/solicitacoes/criar}" method="post">
+
+    <h3>Dados do Cidadão</h3>
+
+    <label>Nome</label>
+    <input type="text" name="nome" required>
+
+    <label>CPF</label>
+    <input type="text" name="cpf">
+
+    <label>Email</label>
+    <input type="email" name="email">
+
+    <label>Telefone</label>
+    <input type="text" name="telefone">
+
+    <label>
+        <input type="checkbox" name="anonimo">
+        Solicitação Anônima
+    </label>
+
+    <hr>
+
+    <h3>Dados da Solicitação</h3>
+
+    <label>Categoria</label>
+
+    <select name="categoria" required>
+
+        <option value="">Selecione...</option>
+
+        <option
+                th:each="categoria : ${categorias}"
+                th:value="${categoria}"
+                th:text="${categoria}">
+        </option>
+
+    </select>
+
+    <label>Bairro</label>
+    <input type="text" name="bairro" required>
+
+    <label>Descrição</label>
+    <textarea
+            name="descricao"
+            rows="6"
+            required>
+    </textarea>
+
+    <button type="submit">
+        Enviar Solicitação
+    </button>
+
+</form>
+
+<br>
+
+<a th:href="@{/}">
+    Voltar ao início
+</a>
+
+</body>
+</html>
