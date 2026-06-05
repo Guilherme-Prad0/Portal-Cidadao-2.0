@@ -1,103 +1,176 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Nova Solicitação</title>
-
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            margin:40px;
-        }
-
-        form{
-            max-width:700px;
-        }
-
-        label{
-            display:block;
-            margin-top:15px;
-            font-weight:bold;
-        }
-
-        input, select, textarea{
-            width:100%;
-            padding:10px;
-            margin-top:5px;
-            box-sizing:border-box;
-        }
-
-        button{
-            margin-top:20px;
-            padding:12px 20px;
-            cursor:pointer;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Protocolo — Portal Cidadão</title>
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
 </head>
 <body>
 
-<h1>Nova Solicitação</h1>
+<nav class="topnav">
+    <a class="topnav-brand" th:href="@{/}">
+        <div class="topnav-brand-icon">P</div>
+        <span>Portal Cidadão</span>
+    </a>
+    <ul class="topnav-links">
+        <li><a th:href="@{/}">Início</a></li>
+        <li><a th:href="@{/solicitacoes}">Protocolos</a></li>
+        <li><a th:href="@{/solicitacoes/consultar}">Acompanhar</a></li>
+    </ul>
+</nav>
 
-<form th:action="@{/solicitacoes/criar}" method="post">
+<div class="main-content-full" style="max-width:800px;margin:0 auto;">
 
-    <h3>Dados do Cidadão</h3>
+    <div class="breadcrumb">
+        <a th:href="@{/}">Início</a>
+        <span class="breadcrumb-sep">/</span>
+        <a th:href="@{/solicitacoes}">Protocolos</a>
+        <span class="breadcrumb-sep">/</span>
+        <span>Novo Protocolo</span>
+    </div>
 
-    <label>Nome</label>
-    <input type="text" name="nome" required>
+    <div class="page-header">
+        <h1>Criar Protocolo</h1>
+        <p>Registre uma ocorrência ou problema na sua cidade</p>
+    </div>
 
-    <label>CPF</label>
-    <input type="text" name="cpf">
+    <!-- Alerta de erro -->
+    <div th:if="${erro}" class="alert alert-danger">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span th:text="${erro}"></span>
+    </div>
 
-    <label>Email</label>
-    <input type="email" name="email">
+    <div class="card">
+        <form th:action="@{/solicitacoes/criar}" method="post" id="formSolicitacao">
 
-    <label>Telefone</label>
-    <input type="text" name="telefone">
+            <!-- Seção: Identificação -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Dados do Cidadão
+                </div>
 
-    <label>
-        <input type="checkbox" name="anonimo">
-        Solicitação Anônima
-    </label>
+                <!-- Modo anônimo -->
+                <div style="background:var(--surface-2);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:16px;margin-bottom:20px;">
+                    <label class="form-check">
+                        <input type="checkbox" name="anonimo" id="chkAnonimo" value="true" onchange="toggleAnonimo(this)">
+                        <span class="form-check-label">
+              <strong>Solicitar anonimamente</strong> — seus dados pessoais não serão vinculados à ocorrência
+            </span>
+                    </label>
+                    <p class="text-muted" style="margin-top:8px;margin-left:28px;">
+                        Solicitações anônimas requerem descrição mais detalhada (mínimo 15 caracteres).
+                    </p>
+                </div>
 
-    <hr>
+                <div id="dadosPessoais">
+                    <div class="form-row form-row-2">
+                        <div class="form-group">
+                            <label class="form-label" for="nome">Nome completo <span>*</span></label>
+                            <input class="form-control" type="text" id="nome" name="nome"
+                                   placeholder="Seu nome completo">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="cpf">CPF <span>*</span></label>
+                            <input class="form-control" type="text" id="cpf" name="cpf"
+                                   placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)">
+                        </div>
+                    </div>
+                    <div class="form-row form-row-2">
+                        <div class="form-group">
+                            <label class="form-label" for="email">E-mail <span>*</span></label>
+                            <input class="form-control" type="email" id="email" name="email"
+                                   placeholder="seu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="telefone">Telefone <span>*</span></label>
+                            <input class="form-control" type="text" id="telefone" name="telefone"
+                                   placeholder="(44) 99999-9999">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <h3>Dados da Solicitação</h3>
+            <!-- Seção: Local -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Local do Problema
+                </div>
+                <div class="form-row form-row-2">
+                    <div class="form-group">
+                        <label class="form-label" for="bairro">Bairro <span>*</span></label>
+                        <input class="form-control" type="text" id="bairro" name="bairro"
+                               placeholder="Nome do bairro" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="categoria">Categoria <span>*</span></label>
+                        <select class="form-control" id="categoria" name="categoria" required>
+                            <option value="">Selecione a categoria...</option>
+                            <option th:each="cat : ${categorias}"
+                                    th:value="${cat}"
+                                    th:text="${cat.descricao}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-    <label>Categoria</label>
+            <!-- Seção: Detalhes -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    Detalhes do Problema
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="descricao">Descrição <span>*</span></label>
+                    <textarea class="form-control" id="descricao" name="descricao" rows="5"
+                              placeholder="Descreva o problema com o máximo de detalhes possível: localização exata, há quanto tempo existe, risco à população..."
+                              required oninput="updateCounter(this)"></textarea>
+                    <div style="display:flex;justify-content:space-between;margin-top:6px;">
+                        <span class="text-muted" id="descHint">Mínimo 15 caracteres para solicitações anônimas</span>
+                        <span class="text-muted" id="descCount">0 caracteres</span>
+                    </div>
+                </div>
+            </div>
 
-    <select name="categoria" required>
+            <!-- Ações -->
+            <div style="display:flex;gap:12px;justify-content:flex-end;padding-top:8px;">
+                <a th:href="@{/}" class="btn btn-ghost">Cancelar</a>
+                <button type="reset" class="btn btn-outline">Limpar campos</button>
+                <button type="submit" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    Enviar Solicitação
+                </button>
+            </div>
 
-        <option value="">Selecione...</option>
+        </form>
+    </div>
 
-        <option
-                th:each="categoria : ${categorias}"
-                th:value="${categoria}"
-                th:text="${categoria}">
-        </option>
+</div>
 
-    </select>
+<script>
+    function toggleAnonimo(cb) {
+      document.getElementById('dadosPessoais').style.display = cb.checked ? 'none' : 'block';
+      ['nome','cpf','email','telefone'].forEach(function(id) {
+        var el = document.getElementById(id);
+        el.required = !cb.checked;
+      });
+    }
 
-    <label>Bairro</label>
-    <input type="text" name="bairro" required>
+    function updateCounter(ta) {
+      document.getElementById('descCount').textContent = ta.value.length + ' caracteres';
+    }
 
-    <label>Descrição</label>
-    <textarea
-            name="descricao"
-            rows="6"
-            required>
-    </textarea>
-
-    <button type="submit">
-        Enviar Solicitação
-    </button>
-
-</form>
-
-<br>
-
-<a th:href="@{/}">
-    Voltar ao início
-</a>
+    function maskCPF(input) {
+      var v = input.value.replace(/\D/g, '').substring(0, 11);
+      v = v.replace(/(\d{3})(\d)/, '$1.$2');
+      v = v.replace(/(\d{3})(\d)/, '$1.$2');
+      v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      input.value = v;
+    }
+</script>
 
 </body>
 </html>

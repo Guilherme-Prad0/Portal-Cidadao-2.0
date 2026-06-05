@@ -1,35 +1,191 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Painel Administrativo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo — Portal Cidadão</title>
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
 </head>
 <body>
 
-<h1>Painel Administrativo</h1>
+<!-- TOPNAV -->
+<nav class="topnav">
+    <a class="topnav-brand" th:href="@{/admin}">
+        <div class="topnav-brand-icon">P</div>
+        <span>Portal Cidadão</span>
+    </a>
+    <div class="topnav-right">
+    <span class="topnav-badge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Gestor
+    </span>
+        <a th:href="@{/}" class="btn btn-ghost btn-sm">Ver site</a>
+        <a th:href="@{/login}" class="btn btn-outline btn-sm">Sair</a>
+    </div>
+</nav>
 
-<table border="1">
+<div class="layout-with-sidebar">
 
-    <tr>
-        <th>Protocolo</th>
-        <th>Categoria</th>
-        <th>Status</th>
-        <th>Ação</th>
-    </tr>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-label">Menu</div>
+            <ul class="sidebar-nav">
+                <li>
+                    <a th:href="@{/admin}" class="active">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        Painel
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/solicitacoes}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        Protocolos Públicos
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/users}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        Usuários
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="sidebar-avatar">AD</div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">Administrador</div>
+                    <div class="sidebar-user-role">Gestor municipal</div>
+                </div>
+            </div>
+        </div>
+    </aside>
 
-    <tr th:each="s : ${solicitacoes}">
-        <td th:text="${s.protocolo}"></td>
-        <td th:text="${s.categoria}"></td>
-        <td th:text="${s.status}"></td>
+    <!-- Main -->
+    <main class="main-content">
 
-        <td>
-            <a th:href="@{/admin/solicitacao/{p}(p=${s.protocolo})}">
-                Gerenciar
-            </a>
-        </td>
-    </tr>
+        <div class="page-header-row">
+            <div class="page-header" style="margin-bottom:0;">
+                <h1>Protocolos</h1>
+                <p>Gerencie e acompanhe os protocolos dos cidadãos</p>
+            </div>
+        </div>
 
-</table>
+        <!-- Stats -->
+        <div class="stat-grid" style="margin-top:24px;">
+            <div class="stat-card blue">
+                <div class="stat-card-label">Total de Protocolos</div>
+                <div class="stat-card-value" th:text="${#lists.size(solicitacoes)}">0</div>
+                <div class="stat-card-sub">Todos os registros</div>
+            </div>
+            <div class="stat-card amber">
+                <div class="stat-card-label">Em andamento</div>
+                <div class="stat-card-value"
+                     th:text="${#lists.size(solicitacoes.?[status.name() == 'EM_EXECUCAO' or status.name() == 'TRIAGEM'])}">0</div>
+                <div class="stat-card-sub">Triagem + execução</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-card-label">Resolvidos</div>
+                <div class="stat-card-value"
+                     th:text="${#lists.size(solicitacoes.?[status.name() == 'RESOLVIDO' or status.name() == 'ENCERRADO'])}">0</div>
+                <div class="stat-card-sub">Resolvidos + encerrados</div>
+            </div>
+            <div class="stat-card red">
+                <div class="stat-card-label">Pendentes</div>
+                <div class="stat-card-value"
+                     th:text="${#lists.size(solicitacoes.?[status.name() == 'ABERTO'])}">0</div>
+                <div class="stat-card-sub">Aguardando triagem</div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <form th:action="@{/admin/filtro}" method="get">
+            <div class="filter-bar">
+                <div class="filter-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <input class="form-control" type="text" name="bairro"
+                           th:value="${param.bairro}"
+                           placeholder="Filtrar por bairro...">
+                </div>
+                <div>
+                    <select class="form-control" name="categoria">
+                        <option value="">Todas as categorias</option>
+                        <option th:each="cat : ${categorias}"
+                                th:value="${cat}"
+                                th:text="${cat.descricao}"
+                                th:selected="${param.categoria != null and param.categoria[0] == cat.name()}">
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                <a th:href="@{/admin}" class="btn btn-ghost btn-sm">Limpar</a>
+            </div>
+        </form>
+
+        <!-- Tabela -->
+        <div class="table-wrap">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Protocolo</th>
+                    <th>Cidadão</th>
+                    <th>Categoria</th>
+                    <th>Local</th>
+                    <th>Status</th>
+                    <th>Data</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(solicitacoes)}">
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <h3>Nenhuma solicitação encontrada</h3>
+                            <p>Tente ajustar os filtros aplicados.</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:each="s : ${solicitacoes}">
+                    <td>
+                        <span class="table-protocol" th:text="${s.protocolo}"></span>
+                        <div th:if="${s.atrasado}" style="margin-top:3px;">
+                            <span class="badge badge-atrasado" style="font-size:.7rem;">⚠ Atrasado</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="table-name" th:if="${s.usuario != null and !s.usuario.anonimo}" th:text="${s.usuario.nome}">—</div>
+                        <div class="table-sub" th:if="${s.usuario != null and !s.usuario.anonimo}" th:text="${s.usuario.cpfMascarado}"></div>
+                        <div class="text-muted" th:if="${s.usuario == null or s.usuario.anonimo}">Anônimo</div>
+                    </td>
+                    <td><span class="badge badge-cat" th:text="${s.categoria.descricao}"></span></td>
+                    <td>
+                        <div th:text="${s.bairro}"></div>
+                    </td>
+                    <td>
+              <span class="badge"
+                    th:classappend="${s.status.name() == 'ABERTO'      ? 'badge-aberto'    :
+                                 s.status.name() == 'TRIAGEM'     ? 'badge-triagem'   :
+                                 s.status.name() == 'EM_EXECUCAO' ? 'badge-execucao'  :
+                                 s.status.name() == 'RESOLVIDO'   ? 'badge-resolvido' : 'badge-encerrado'}"
+                    th:text="${s.status.descricao}">
+              </span>
+                    </td>
+                    <td class="text-muted" th:text="${#temporals.format(s.dataCriacao, 'dd/MM/yyyy')}"></td>
+                    <td>
+                        <a th:href="@{/admin/solicitacao/{p}(p=${s.protocolo})}" class="btn btn-outline btn-sm">
+                            Gerenciar
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
 
 </body>
 </html>
