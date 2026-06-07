@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Protocolo — Portal Cidadão</title>
+    <link rel="stylesheet" href="../../static/css/portal.css">
+</head>
+<body>
+
+<nav class="topnav">
+    <a class="topnav-brand" th:href="@{/}">
+        <div class="topnav-logo">P</div>
+        <div>
+            <span class="topnav-name">Portal Cidadão</span>
+            <span class="topnav-sub">Prefeitura Municipal</span>
+        </div>
+    </a>
+    <ul class="topnav-links">
+        <li><a th:href="@{/}">Início</a></li>
+        <li><a th:href="@{/solicitacoes}">Protocolos</a></li>
+        <li><a th:href="@{/solicitacoes/consultar}" class="active">Acompanhar</a></li>
+    </ul>
+    <div class="topnav-right">
+        <a th:href="@{/solicitacoes/nova}" class="btn btn-primary btn-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Criar Protocolo
+        </a>
+    </div>
+</nav>
+
+<div class="main-full" style="max-width:720px;">
+
+    <!-- Cabeçalho -->
+    <div class="search-hero">
+        <h1>Consultar Protocolo</h1>
+        <p>Pesquise e acompanhe o andamento de uma solicitação registrada</p>
+    </div>
+
+    <!-- Box de busca -->
+    <div class="search-card">
+        <form th:action="@{/solicitacoes/consultar}" method="get" id="searchForm">
+            <div class="form-group" style="margin-bottom:14px;">
+                <label class="form-label" for="protocolo">Número do Protocolo <span class="req">*</span></label>
+                <div style="position:relative;">
+                    <input class="form-control" type="text" name="protocolo" id="protocolo"
+                           th:value="${protocolo}"
+                           placeholder="Ex: SOL-2024-1700000000000"
+                           style="font-family:'JetBrains Mono',monospace;padding-right:48px;"
+                           autocomplete="off" required>
+                    <button type="submit" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:6px;color:var(--brand);">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Consultar andamento
+            </button>
+        </form>
+    </div>
+
+    <!-- Erro -->
+    <div th:if="${erro}" class="alert alert-error fade-in" style="max-width:580px;margin:0 auto 24px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span th:text="${erro}">Protocolo não encontrado.</span>
+    </div>
+
+    <!-- RESULTADO -->
+    <div th:if="${solicitacao}" class="fade-in">
+
+        <!-- Card principal do resultado -->
+        <div class="card" style="margin-bottom:16px;">
+
+            <!-- Cabeçalho do resultado -->
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:24px;">
+                <div>
+                    <div class="section-label" style="margin-bottom:8px;">Protocolo encontrado</div>
+                    <span class="protocol-tag" th:text="${solicitacao.protocolo}"></span>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                    <span th:if="${solicitacao.atrasado}" class="badge badge-atrasado">⚠ Atrasado</span>
+                    <span class="badge"
+                          th:classappend="${solicitacao.status.name() == 'ABERTO'      ? 'badge-aberto'    :
+                             solicitacao.status.name() == 'TRIAGEM'     ? 'badge-triagem'   :
+                             solicitacao.status.name() == 'EM_EXECUCAO' ? 'badge-execucao'  :
+                             solicitacao.status.name() == 'RESOLVIDO'   ? 'badge-resolvido' : 'badge-encerrado'}"
+                          th:text="${solicitacao.status.descricao}">
+          </span>
+                    <span class="badge"
+                          th:classappend="${solicitacao.prioridade.name() == 'ALTA' ? 'badge-alta' : solicitacao.prioridade.name() == 'MEDIA' ? 'badge-media' : 'badge-baixa'}"
+                          th:text="'Prioridade ' + ${solicitacao.prioridade.descricao}">
+          </span>
+                </div>
+            </div>
+
+            <!-- Pipeline de progresso -->
+            <div style="margin-bottom:28px;">
+                <div class="section-label" style="margin-bottom:14px;">Progresso do atendimento</div>
+                <div class="pipeline">
+                    <div class="pipe-step"
+                         th:classappend="${solicitacao.status.name() == 'ABERTO' ? 'current' :
+                                 (solicitacao.status.name() == 'TRIAGEM' or
+                                  solicitacao.status.name() == 'EM_EXECUCAO' or
+                                  solicitacao.status.name() == 'RESOLVIDO' or
+                                  solicitacao.status.name() == 'ENCERRADO') ? 'done' : ''}">
+                        <div class="pipe-dot">✓</div>
+                        <div class="pipe-label">Aberto</div>
+                    </div>
+                    <div class="pipe-step"
+                         th:classappend="${solicitacao.status.name() == 'TRIAGEM' ? 'current' :
+                                 (solicitacao.status.name() == 'EM_EXECUCAO' or
+                                  solicitacao.status.name() == 'RESOLVIDO' or
+                                  solicitacao.status.name() == 'ENCERRADO') ? 'done' : ''}">
+                        <div class="pipe-dot">✓</div>
+                        <div class="pipe-label">Triagem</div>
+                    </div>
+                    <div class="pipe-step"
+                         th:classappend="${solicitacao.status.name() == 'EM_EXECUCAO' ? 'current' :
+                                 (solicitacao.status.name() == 'RESOLVIDO' or
+                                  solicitacao.status.name() == 'ENCERRADO') ? 'done' : ''}">
+                        <div class="pipe-dot">✓</div>
+                        <div class="pipe-label">Execução</div>
+                    </div>
+                    <div class="pipe-step"
+                         th:classappend="${solicitacao.status.name() == 'RESOLVIDO' ? 'current' :
+                                 solicitacao.status.name() == 'ENCERRADO' ? 'done' : ''}">
+                        <div class="pipe-dot">✓</div>
+                        <div class="pipe-label">Resolvido</div>
+                    </div>
+                    <div class="pipe-step"
+                         th:classappend="${solicitacao.status.name() == 'ENCERRADO' ? 'current' : ''}">
+                        <div class="pipe-dot">✓</div>
+                        <div class="pipe-label">Encerrado</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações -->
+            <div class="info-list">
+                <div class="info-row">
+                    <span class="info-label">Categoria</span>
+                    <span class="info-value"><span class="badge badge-cat" th:text="${solicitacao.categoria.descricao}"></span></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Bairro</span>
+                    <span class="info-value" th:text="${solicitacao.bairro}"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Descrição</span>
+                    <span class="info-value" th:text="${solicitacao.descricao}"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Aberto em</span>
+                    <span class="info-value mono"
+                          th:text="${#temporals.format(solicitacao.dataCriacao, 'dd/MM/yyyy HH:mm')}">
+          </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Prazo</span>
+                    <span class="info-value mono"
+                          th:text="${#temporals.format(solicitacao.prazo, 'dd/MM/yyyy')}"
+                          th:style="${solicitacao.atrasado ? 'color:var(--red);font-weight:700;' : ''}">
+          </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Solicitante</span>
+                    <span class="info-value"
+                          th:text="${(solicitacao.usuario == null or solicitacao.usuario.anonimo) ? 'Anônimo' : solicitacao.usuario.nome}">
+          </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline de histórico -->
+        <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Histórico de movimentações</div>
+                    <div class="card-sub">Todas as atualizações registradas pela equipe</div>
+                </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(solicitacao.historico)}" class="empty-state" style="padding:32px;">
+                <div class="empty-icon">📭</div>
+                <h3>Sem movimentações ainda</h3>
+                <p>A equipe ainda não atualizou esta solicitação.</p>
+            </div>
+
+            <div class="timeline" th:if="${!#lists.isEmpty(solicitacao.historico)}">
+                <div class="timeline-item" th:each="h : ${solicitacao.historico}">
+                    <div class="tl-dot"
+                         th:classappend="${h.status.name() == 'ENCERRADO' ? 'tl-dot-green' :
+                                h.status.name() == 'RESOLVIDO'  ? 'tl-dot-green' :
+                                h.status.name() == 'EM_EXECUCAO'? 'tl-dot-purple' :
+                                h.status.name() == 'TRIAGEM'    ? 'tl-dot-amber' : 'tl-dot-gray'}">●</div>
+                    <div class="tl-content">
+                        <div class="tl-title" th:text="${h.status.descricao}"></div>
+                        <div class="tl-meta">
+                            <span th:text="${#temporals.format(h.data, 'dd/MM/yyyy HH:mm')}"></span>
+                            <span th:if="${h.responsavel}"> · <strong th:text="${h.responsavel}"></strong></span>
+                        </div>
+                        <div class="tl-comment" th:if="${h.comentario}" th:text="${h.comentario}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ações -->
+        <div style="display:flex;gap:12px;justify-content:flex-end;">
+            <a th:href="@{/solicitacoes/consultar}" class="btn btn-outline">Nova consulta</a>
+            <button onclick="window.print()" class="btn btn-ghost">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                Imprimir / PDF
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // Auto-focus
+    document.getElementById('protocolo').focus();
+    // Formata protocolo em maiúsculas
+    document.getElementById('protocolo').addEventListener('input', function() {
+      var pos = this.selectionStart;
+      this.value = this.value.toUpperCase();
+      this.setSelectionRange(pos, pos);
+    });
+</script>
+
+</body>
+</html>

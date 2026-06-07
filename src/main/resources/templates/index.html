@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Cidadão — Início</title>
-    <link rel="stylesheet" th:href="@{/css/portal.css}">
+    <link rel="stylesheet" href="../../static/css/portal.css">
 </head>
 <body>
 
 <!-- TOPNAV -->
 <nav class="topnav">
     <a class="topnav-brand" th:href="@{/}">
-        <div class="topnav-brand-icon">P</div>
-        <span>Portal Cidadão</span>
+        <div class="topnav-logo">P</div>
+        <div>
+            <span class="topnav-name">Portal Cidadão</span>
+            <span class="topnav-sub">Prefeitura Municipal</span>
+        </div>
     </a>
     <ul class="topnav-links">
         <li><a th:href="@{/}" class="active">Início</a></li>
@@ -20,113 +23,116 @@
         <li><a th:href="@{/solicitacoes/consultar}">Acompanhar</a></li>
     </ul>
     <div class="topnav-right">
-        <a th:href="@{/admin}" class="btn btn-outline btn-sm">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Painel Admin
+        <a th:href="@{/login}" class="btn btn-ghost btn-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Área do Gestor
         </a>
         <a th:href="@{/solicitacoes/nova}" class="btn btn-primary btn-sm">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Criar Protocolo
         </a>
     </div>
 </nav>
 
-<div style="padding-top: var(--nav-h);">
-    <div style="max-width:1100px; margin:0 auto; padding:40px 32px;">
+<div class="main-full">
 
-        <!-- Hero -->
-        <div class="hero">
-            <h1>Portal do Cidadão</h1>
-            <p>Registre ocorrências urbanas, acompanhe o andamento das solicitações e contribua para uma cidade mais organizada e transparente.</p>
-            <div class="hero-actions">
-                <a th:href="@{/solicitacoes/nova}" class="btn btn-white btn-lg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                    Criar Protocolo
-                </a>
-                <a th:href="@{/solicitacoes/consultar}" class="btn btn-outline-white btn-lg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    Consultar Protocolo
-                </a>
-            </div>
-        </div>
-
-        <!-- Categorias -->
-        <div class="section-label">Categorias mais acessadas</div>
-        <div class="cat-grid" style="margin-bottom:36px;">
-            <a th:href="@{/solicitacoes/nova}" class="cat-card">
-                <div class="cat-icon">🏥</div>
-                <div class="cat-name">Saúde</div>
-                <div class="cat-desc">Problemas de saúde pública e unidades</div>
-            </a>
-            <a th:href="@{/solicitacoes/nova}" class="cat-card">
-                <div class="cat-icon">🕳️</div>
-                <div class="cat-name">Buracos / Vias</div>
-                <div class="cat-desc">Buracos, asfalto e problemas viários</div>
-            </a>
-            <a th:href="@{/solicitacoes/nova}" class="cat-card">
-                <div class="cat-icon">💡</div>
-                <div class="cat-name">Iluminação Pública</div>
-                <div class="cat-desc">Lâmpadas apagadas e postes</div>
-            </a>
-            <a th:href="@{/solicitacoes/nova}" class="cat-card">
-                <div class="cat-icon">🏫</div>
-                <div class="cat-name">Segurança Escolar</div>
-                <div class="cat-desc">Ocorrências em escolas públicas</div>
-            </a>
-            <a th:href="@{/solicitacoes/nova}" class="cat-card">
-                <div class="cat-icon">🧹</div>
-                <div class="cat-name">Limpeza Urbana</div>
-                <div class="cat-desc">Coleta, lixo e limpeza de ruas</div>
-            </a>
-        </div>
-
-        <!-- Como funciona -->
-        <div class="card" style="margin-bottom:36px;">
-            <div class="card-header">
-                <div>
-                    <div class="card-title">Como funciona?</div>
-                    <div class="card-sub">Acompanhe o ciclo completo da sua solicitação</div>
-                </div>
-            </div>
-            <div class="steps-grid">
-                <div class="step-item">
-                    <div class="step-num">1</div>
-                    <div class="step-title">Crie sua solicitação</div>
-                    <div class="step-desc">Informe a categoria, bairro e descrição do problema encontrado</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-num">2</div>
-                    <div class="step-title">Receba o protocolo</div>
-                    <div class="step-desc">Um número de protocolo é gerado para rastreamento do caso</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-num">3</div>
-                    <div class="step-title">Acompanhe o andamento</div>
-                    <div class="step-desc">Consulte o status e o histórico de atualizações a qualquer momento</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-num">4</div>
-                    <div class="step-title">Problema resolvido</div>
-                    <div class="step-desc">A equipe atualiza o status até o encerramento do caso</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CTA inferior -->
-        <div style="background:var(--brand-light);border:1.5px solid var(--border);border-radius:var(--radius-xl);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
-            <div>
-                <div style="font-size:1.05rem;font-weight:700;color:var(--text-1);margin-bottom:4px;">Viu um problema na cidade?</div>
-                <div style="font-size:.875rem;color:var(--text-2);">
-                    Já temos <strong th:text="${totalSolicitacoes}">0</strong> solicitação(ões) registrada(s). Junte-se e faça a diferença!
-                </div>
-            </div>
-            <a th:href="@{/solicitacoes/nova}" class="btn btn-primary">
+    <!-- HERO -->
+    <div class="hero fade-in">
+        <div class="hero-eyebrow">Prefeitura Municipal</div>
+        <h1>Portal do<br>Cidadão</h1>
+        <p>Registre ocorrências urbanas, acompanhe o andamento das solicitações e contribua para uma cidade mais organizada e transparente.</p>
+        <div class="hero-actions">
+            <a th:href="@{/solicitacoes/nova}" class="btn btn-white btn-lg">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                 Criar Protocolo
             </a>
+            <a th:href="@{/solicitacoes/consultar}" class="btn btn-outline-white btn-lg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Consultar Protocolo
+            </a>
         </div>
-
+        <div class="hero-stat">
+            <div class="hero-stat-num" th:text="${totalSolicitacoes}">0</div>
+            <div class="hero-stat-label">solicitações registradas</div>
+        </div>
     </div>
+
+    <!-- CATEGORIAS -->
+    <div class="section-label">Categorias mais acessadas</div>
+    <div class="cat-grid stagger">
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+            <div class="cat-emoji">🏥</div>
+            <div class="cat-name">Saúde</div>
+            <div class="cat-desc">Problemas em unidades de saúde pública</div>
+        </a>
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+            <div class="cat-emoji">🕳️</div>
+            <div class="cat-name">Buracos / Vias</div>
+            <div class="cat-desc">Buracos, asfalto e problemas viários</div>
+        </a>
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+            <div class="cat-emoji">💡</div>
+            <div class="cat-name">Iluminação Pública</div>
+            <div class="cat-desc">Lâmpadas apagadas e postes com defeito</div>
+        </a>
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+            <div class="cat-emoji">🏫</div>
+            <div class="cat-name">Segurança Escolar</div>
+            <div class="cat-desc">Ocorrências em escolas e zonas escolares</div>
+        </a>
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+            <div class="cat-emoji">🧹</div>
+            <div class="cat-name">Limpeza Urbana</div>
+            <div class="cat-desc">Coleta de lixo e limpeza de ruas</div>
+        </a>
+    </div>
+
+    <!-- COMO FUNCIONA -->
+    <div class="card" style="margin-bottom:32px;">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Como funciona?</div>
+                <div class="card-sub">Do registro ao encerramento — acompanhe cada etapa</div>
+            </div>
+        </div>
+        <div class="steps-wrap">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-title">Crie sua solicitação</div>
+                <div class="step-desc">Informe a categoria, bairro e descrição detalhada do problema</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-title">Receba o protocolo</div>
+                <div class="step-desc">Um número único é gerado para você rastrear o caso</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-title">Acompanhe o andamento</div>
+                <div class="step-desc">Consulte status e histórico de atualizações a qualquer momento</div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-title">Problema resolvido</div>
+                <div class="step-desc">A equipe municipal atualiza o status até o encerramento</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA BANNER -->
+    <div class="cta-banner">
+        <div>
+            <div class="cta-banner-title">Viu um problema na cidade?</div>
+            <div class="cta-banner-sub">
+                Já temos <strong th:text="${totalSolicitacoes}">0</strong> ocorrência(s) registrada(s). Registre a sua e faça a diferença!
+            </div>
+        </div>
+        <a th:href="@{/solicitacoes/nova}" class="btn btn-primary btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Criar Protocolo agora
+        </a>
+    </div>
+
 </div>
 
 </body>

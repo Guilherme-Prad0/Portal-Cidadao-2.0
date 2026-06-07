@@ -4,35 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar — Portal Cidadão</title>
-    <link rel="stylesheet" th:href="@{/css/portal.css}">
+    <link rel="stylesheet" href="../../static/css/portal.css">
 </head>
 <body>
-
 <div class="login-page">
 
-    <!-- Lado esquerdo — ilustrativo -->
+    <!-- ── Lado esquerdo: ilustrativo ── -->
     <div class="login-left">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:40px;">
-            <div class="login-logo-icon">P</div>
+        <div class="login-left-brand">
+            <div class="logo">P</div>
             <div>
-                <div style="font-size:1.1rem;font-weight:800;">Portal Cidadão</div>
-                <div style="font-size:.75rem;opacity:.7;">Prefeitura Municipal</div>
+                <div style="font-weight:800;font-size:1.05rem;">Portal Cidadão</div>
+                <div style="font-size:.7rem;opacity:.7;">Prefeitura Municipal</div>
             </div>
         </div>
 
-        <h2>Sua cidade mais organizada e transparente</h2>
-        <p>Registre ocorrências urbanas, acompanhe protocolos e contribua para uma cidade melhor.</p>
+        <h2>Sua cidade mais transparente e organizada</h2>
+        <p>Registre ocorrências urbanas, acompanhe o andamento dos protocolos e contribua para um município melhor.</p>
 
-        <div class="login-left-feat">
-            <div class="login-feat-item"><div class="login-feat-dot"></div> Registre buracos, iluminação e mais</div>
-            <div class="login-feat-item"><div class="login-feat-dot"></div> Acompanhe sua solicitação em tempo real</div>
-            <div class="login-feat-item"><div class="login-feat-dot"></div> Histórico completo de cada protocolo</div>
-            <div class="login-feat-item"><div class="login-feat-dot"></div> Solicitações anônimas disponíveis</div>
+        <div class="login-feats" style="position:relative;z-index:1;">
+            <div class="login-feat">
+                <div class="login-feat-icon">🕳️</div>
+                <span>Registre buracos, iluminação, saúde e mais</span>
+            </div>
+            <div class="login-feat">
+                <div class="login-feat-icon">📋</div>
+                <span>Acompanhe sua solicitação com número de protocolo</span>
+            </div>
+            <div class="login-feat">
+                <div class="login-feat-icon">⚡</div>
+                <span>Prioridade automática conforme urgência</span>
+            </div>
+            <div class="login-feat">
+                <div class="login-feat-icon">🕵️</div>
+                <span>Modo anônimo disponível para todos</span>
+            </div>
+        </div>
+
+        <!-- Decoração -->
+        <div style="position:absolute;bottom:40px;left:64px;opacity:.2;">
+            <svg width="180" height="120" viewBox="0 0 180 120" fill="none">
+                <circle cx="20" cy="60" r="18" stroke="white" stroke-width="2"/>
+                <circle cx="70" cy="30" r="12" stroke="white" stroke-width="2"/>
+                <circle cx="120" cy="70" r="22" stroke="white" stroke-width="2"/>
+                <circle cx="160" cy="40" r="10" stroke="white" stroke-width="2"/>
+                <line x1="38" y1="56" x2="58" y2="36" stroke="white" stroke-width="1.5"/>
+                <line x1="82" y1="36" x2="98" y2="56" stroke="white" stroke-width="1.5"/>
+                <line x1="142" y1="60" x2="150" y2="44" stroke="white" stroke-width="1.5"/>
+            </svg>
         </div>
     </div>
 
-    <!-- Lado direito — formulário -->
-    <div class="login-right">
+    <!-- ── Lado direito: formulário ── -->
+    <div class="login-right fade-in">
         <div class="login-logo">
             <div class="login-logo-icon">P</div>
             <div>
@@ -45,68 +69,68 @@
         <p class="login-sub">Escolha seu perfil para continuar</p>
 
         <!-- Seletor de perfil -->
-        <div class="login-role-switch" id="roleSwitch">
-            <button class="login-role-btn active" onclick="setRole('cidadao')" id="btn-cidadao">
-                👤 Cidadão
+        <div class="role-switch" id="roleSwitch">
+            <button class="role-btn active" onclick="setRole('cidadao')" id="btn-cidadao" type="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Cidadão
             </button>
-            <button class="login-role-btn" onclick="setRole('admin')" id="btn-admin">
-                🛡️ Gestor
+            <button class="role-btn" onclick="setRole('admin')" id="btn-admin" type="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Gestor
             </button>
         </div>
 
-        <!-- Alerta de erro -->
-        <div th:if="${erro}" class="alert alert-danger">
+        <!-- Erro -->
+        <div th:if="${erro}" class="alert alert-error">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <span th:text="${erro}">Credenciais inválidas.</span>
         </div>
 
-        <!-- Formulário de login -->
-        <form th:action="@{/login}" method="post" id="loginForm">
-            <input type="hidden" name="perfil" id="perfil" value="cidadao">
-
-            <!-- Painel cidadão -->
-            <div id="panel-cidadao">
-                <p class="alert alert-info" style="margin-bottom:20px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                    Como cidadão, você pode registrar e acompanhar ocorrências sem cadastro prévio.
-                </p>
-                <a href="/solicitacoes/nova" class="btn btn-primary btn-block btn-lg" style="margin-bottom:12px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                    Abrir nova solicitação
-                </a>
-                <a href="/solicitacoes/consultar" class="btn btn-outline btn-block" style="margin-bottom:12px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    Consultar protocolo existente
-                </a>
-                <a href="/" class="btn btn-ghost btn-block">
-                    Ver todas as ocorrências
-                </a>
+        <!-- Painel Cidadão -->
+        <div id="panel-cidadao">
+            <div class="alert alert-info" style="margin-bottom:24px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <div>Como cidadão, você acessa o sistema <strong>sem cadastro ou senha</strong>. Basta clicar em uma das opções abaixo.</div>
             </div>
+            <a href="/solicitacoes/nova" class="btn btn-primary btn-block btn-lg" style="margin-bottom:12px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Abrir nova solicitação
+            </a>
+            <a href="/solicitacoes/consultar" class="btn btn-outline btn-block" style="margin-bottom:12px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Consultar protocolo existente
+            </a>
+            <a href="/solicitacoes" class="btn btn-ghost btn-block">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 16h6M9 8h6M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>
+                Ver todas as ocorrências
+            </a>
+        </div>
 
-            <!-- Painel admin -->
-            <div id="panel-admin" style="display:none;">
+        <!-- Painel Gestor -->
+        <div id="panel-admin" style="display:none;">
+            <form th:action="@{/admin/login}" method="post">
                 <div class="form-group">
-                    <label class="form-label" for="username">Usuário <span>*</span></label>
+                    <label class="form-label" for="username">Usuário <span class="req">*</span></label>
                     <input class="form-control" type="text" id="username" name="username"
-                           placeholder="Digite seu usuário" autocomplete="username" required>
+                           placeholder="Digite seu usuário" autocomplete="username">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="password">Senha <span>*</span></label>
+                    <label class="form-label" for="password">Senha <span class="req">*</span></label>
                     <input class="form-control" type="password" id="password" name="password"
-                           placeholder="••••••••" autocomplete="current-password" required>
+                           placeholder="••••••••" autocomplete="current-password">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block btn-lg">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                     Entrar como Gestor
                 </button>
-                <p class="text-muted" style="text-align:center;margin-top:14px;">
+                <p style="text-align:center;margin-top:14px;font-size:.75rem;color:var(--text-muted);">
                     Acesso restrito a servidores municipais autorizados.
                 </p>
-            </div>
-        </form>
+            </form>
+        </div>
 
         <div class="divider" style="margin-top:32px;"></div>
-        <p class="text-muted" style="text-align:center;font-size:.78rem;">
+        <p style="text-align:center;font-size:.72rem;color:var(--text-muted);">
             Portal Cidadão © 2024 — Prefeitura Municipal
         </p>
     </div>
@@ -114,17 +138,16 @@
 
 <script>
     function setRole(role) {
-      document.getElementById('perfil').value = role;
       document.getElementById('panel-cidadao').style.display = role === 'cidadao' ? 'block' : 'none';
       document.getElementById('panel-admin').style.display   = role === 'admin'   ? 'block' : 'none';
       document.getElementById('btn-cidadao').classList.toggle('active', role === 'cidadao');
       document.getElementById('btn-admin').classList.toggle('active',   role === 'admin');
     }
-    // Ativa admin se houver erro de login
-    (function() {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('perfil') === 'admin' || document.querySelector('.alert-danger')) setRole('admin');
-    })();
+    // Mantém aba admin se houver erro
+    document.addEventListener('DOMContentLoaded', function() {
+      const hasError = document.querySelector('.alert-error');
+      if (hasError) setRole('admin');
+    });
 </script>
 </body>
 </html>

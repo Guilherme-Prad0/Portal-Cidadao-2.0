@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Protocolos — Portal Cidadão</title>
-    <link rel="stylesheet" th:href="@{/css/portal.css}">
+    <link rel="stylesheet" href="../../static/css/portal.css">
 </head>
 <body>
 
 <nav class="topnav">
     <a class="topnav-brand" th:href="@{/}">
-        <div class="topnav-brand-icon">P</div>
-        <span>Portal Cidadão</span>
+        <div class="topnav-logo">P</div>
+        <div>
+            <span class="topnav-name">Portal Cidadão</span>
+            <span class="topnav-sub">Prefeitura Municipal</span>
+        </div>
     </a>
     <ul class="topnav-links">
         <li><a th:href="@{/}">Início</a></li>
@@ -20,16 +23,16 @@
     </ul>
     <div class="topnav-right">
         <a th:href="@{/solicitacoes/nova}" class="btn btn-primary btn-sm">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-            Criar Protocolo
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Nova Solicitação
         </a>
     </div>
 </nav>
 
-<div class="main-content-full" style="max-width:1100px;margin:0 auto;">
+<div class="main-full">
 
-    <div class="page-header-row">
-        <div class="page-header" style="margin-bottom:0;">
+    <div class="page-row page-header">
+        <div>
             <h1>Protocolos Públicos</h1>
             <p>Todas as ocorrências registradas no sistema</p>
         </div>
@@ -39,17 +42,15 @@
         </a>
     </div>
 
-    <div style="margin-top:24px;"></div>
-
     <!-- Tabela -->
     <div class="table-wrap">
-        <table class="table">
+        <table class="data-table">
             <thead>
             <tr>
                 <th>Protocolo</th>
                 <th>Categoria</th>
-                <th>Status</th>
                 <th>Bairro</th>
+                <th>Status</th>
                 <th>Prioridade</th>
                 <th>Criado em</th>
                 <th></th>
@@ -59,20 +60,23 @@
             <tr th:if="${#lists.isEmpty(solicitacoes)}">
                 <td colspan="7">
                     <div class="empty-state">
-                        <div class="empty-state-icon">📋</div>
+                        <div class="empty-icon">📋</div>
                         <h3>Nenhuma solicitação registrada</h3>
-                        <p>Seja o primeiro a registrar uma ocorrência na sua cidade.</p>
+                        <p>Seja o primeiro a registrar uma ocorrência.</p>
                     </div>
                 </td>
             </tr>
             <tr th:each="s : ${solicitacoes}">
                 <td>
-                    <span class="table-protocol" th:text="${s.protocolo}"></span>
-                    <div class="table-sub" th:if="${s.atrasado}">
-                        <span class="badge badge-atrasado">⚠ Atrasado</span>
+                    <div class="cell-protocol" th:text="${s.protocolo}"></div>
+                    <div th:if="${s.atrasado}" style="margin-top:4px;">
+                        <span class="badge badge-atrasado" style="font-size:.66rem;">⚠ Atrasado</span>
                     </div>
                 </td>
                 <td><span class="badge badge-cat" th:text="${s.categoria.descricao}"></span></td>
+                <td>
+                    <div class="cell-name" th:text="${s.bairro}"></div>
+                </td>
                 <td>
             <span class="badge"
                   th:classappend="${s.status.name() == 'ABERTO'      ? 'badge-aberto'    :
@@ -82,21 +86,19 @@
                   th:text="${s.status.descricao}">
             </span>
                 </td>
-                <td th:text="${s.bairro}"></td>
                 <td>
             <span class="badge"
-                  th:classappend="${s.prioridade.name() == 'ALTA'  ? 'badge-alta'  :
-                               s.prioridade.name() == 'MEDIA' ? 'badge-media' : 'badge-baixa'}"
+                  th:classappend="${s.prioridade.name() == 'ALTA' ? 'badge-alta' : s.prioridade.name() == 'MEDIA' ? 'badge-media' : 'badge-baixa'}"
                   th:text="${s.prioridade.descricao}">
             </span>
                 </td>
-                <td class="text-muted"
+                <td style="color:var(--text-muted);font-size:.78rem;"
                     th:text="${#temporals.format(s.dataCriacao, 'dd/MM/yyyy')}">
                 </td>
                 <td>
                     <a th:href="@{/solicitacoes/{p}(p=${s.protocolo})}" class="btn btn-ghost btn-sm">
                         Ver
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                     </a>
                 </td>
             </tr>
