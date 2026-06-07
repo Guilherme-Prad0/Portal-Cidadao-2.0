@@ -9,7 +9,7 @@
 <body>
 
 <nav class="topnav">
-    <a class="topnav-brand" th:href="@{/}">
+    <a class="topnav-brand" href="@{/}">
         <div class="topnav-logo">P</div>
         <div>
             <span class="topnav-name">Portal Cidadão</span>
@@ -17,12 +17,12 @@
         </div>
     </a>
     <ul class="topnav-links">
-        <li><a th:href="@{/}">Início</a></li>
-        <li><a th:href="@{/solicitacoes}" class="active">Protocolos</a></li>
-        <li><a th:href="@{/solicitacoes/consultar}">Acompanhar</a></li>
+        <li><a href="@{/}">Início</a></li>
+        <li><a href="@{/solicitacoes}" class="active">Protocolos</a></li>
+        <li><a href="@{/solicitacoes/consultar}">Acompanhar</a></li>
     </ul>
     <div class="topnav-right">
-        <a th:href="@{/solicitacoes/nova}" class="btn btn-primary btn-sm">
+        <a href="@{/solicitacoes/nova}" class="btn btn-primary btn-sm">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Nova Solicitação
         </a>
@@ -36,7 +36,7 @@
             <h1>Protocolos Públicos</h1>
             <p>Todas as ocorrências registradas no sistema</p>
         </div>
-        <a th:href="@{/solicitacoes/nova}" class="btn btn-primary">
+        <a href="@{/solicitacoes/nova}" class="btn btn-primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Nova Solicitação
         </a>
@@ -57,7 +57,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${#lists.isEmpty(solicitacoes)}">
+            <tr if="${#lists.isEmpty(solicitacoes)}">
                 <td colspan="7">
                     <div class="empty-state">
                         <div class="empty-icon">📋</div>
@@ -66,37 +66,37 @@
                     </div>
                 </td>
             </tr>
-            <tr th:each="s : ${solicitacoes}">
+            <tr each="s : ${solicitacoes}">
                 <td>
-                    <div class="cell-protocol" th:text="${s.protocolo}"></div>
-                    <div th:if="${s.atrasado}" style="margin-top:4px;">
+                    <div class="cell-protocol" text="${s.protocolo}"></div>
+                    <div if="${s.atrasado}" style="margin-top:4px;">
                         <span class="badge badge-atrasado" style="font-size:.66rem;">⚠ Atrasado</span>
                     </div>
                 </td>
-                <td><span class="badge badge-cat" th:text="${s.categoria.descricao}"></span></td>
+                <td><span class="badge badge-cat" text="${s.categoria.descricao}"></span></td>
                 <td>
-                    <div class="cell-name" th:text="${s.bairro}"></div>
+                    <div class="cell-name" text="${s.bairro}"></div>
                 </td>
                 <td>
             <span class="badge"
-                  th:classappend="${s.status.name() == 'ABERTO'      ? 'badge-aberto'    :
+                  classappend="${s.status.name() == 'ABERTO'      ? 'badge-aberto'    :
                                s.status.name() == 'TRIAGEM'     ? 'badge-triagem'   :
                                s.status.name() == 'EM_EXECUCAO' ? 'badge-execucao'  :
                                s.status.name() == 'RESOLVIDO'   ? 'badge-resolvido' : 'badge-encerrado'}"
-                  th:text="${s.status.descricao}">
+                  text="${s.status.descricao}">
             </span>
                 </td>
                 <td>
             <span class="badge"
-                  th:classappend="${s.prioridade.name() == 'ALTA' ? 'badge-alta' : s.prioridade.name() == 'MEDIA' ? 'badge-media' : 'badge-baixa'}"
-                  th:text="${s.prioridade.descricao}">
+                  classappend="${s.prioridade.name() == 'ALTA' ? 'badge-alta' : s.prioridade.name() == 'MEDIA' ? 'badge-media' : 'badge-baixa'}"
+                  text="${s.prioridade.descricao}">
             </span>
                 </td>
                 <td style="color:var(--text-muted);font-size:.78rem;"
-                    th:text="${#temporals.format(s.dataCriacao, 'dd/MM/yyyy')}">
+                    text="${#temporals.format(s.dataCriacao, 'dd/MM/yyyy')}">
                 </td>
                 <td>
-                    <a th:href="@{/solicitacoes/{p}(p=${s.protocolo})}" class="btn btn-ghost btn-sm">
+                    <a href="@{/solicitacoes/{p}(p=${s.protocolo})}" class="btn btn-ghost btn-sm">
                         Ver
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                     </a>

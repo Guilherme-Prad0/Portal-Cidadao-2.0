@@ -18,16 +18,16 @@
         </div>
     </a>
     <ul class="topnav-links">
-        <li><a th:href="@{/}" class="active">Início</a></li>
-        <li><a th:href="@{/solicitacoes}">Protocolos</a></li>
-        <li><a th:href="@{/solicitacoes/consultar}">Acompanhar</a></li>
+        <li><a href="./index.html" class="active">Início</a></li>
+        <li><a href="./solicitacoes/criar.html">Protocolos</a></li>
+        <li><a href="./solicitacoes/consultar.html">Acompanhar</a></li>
     </ul>
     <div class="topnav-right">
-        <a th:href="@{/login}" class="btn btn-ghost btn-sm">
+        <a href="./admin/painel.html" class="btn btn-ghost btn-sm">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Área do Gestor
         </a>
-        <a th:href="@{/solicitacoes/nova}" class="btn btn-primary btn-sm">
+        <a href="./solicitacoes/criar.html" class="btn btn-primary btn-sm">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Criar Protocolo
         </a>
@@ -42,11 +42,11 @@
         <h1>Portal do<br>Cidadão</h1>
         <p>Registre ocorrências urbanas, acompanhe o andamento das solicitações e contribua para uma cidade mais organizada e transparente.</p>
         <div class="hero-actions">
-            <a th:href="@{/solicitacoes/nova}" class="btn btn-white btn-lg">
+            <a href="./solicitacoes/criar.html" class="btn btn-white btn-lg">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                 Criar Protocolo
             </a>
-            <a th:href="@{/solicitacoes/consultar}" class="btn btn-outline-white btn-lg">
+            <a href="./solicitacoes/consultar.html" class="btn btn-outline-white btn-lg">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                 Consultar Protocolo
             </a>
@@ -60,27 +60,27 @@
     <!-- CATEGORIAS -->
     <div class="section-label">Categorias mais acessadas</div>
     <div class="cat-grid stagger">
-        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+        <a href="./solicitacoes/criar.html" class="cat-card">
             <div class="cat-emoji">🏥</div>
             <div class="cat-name">Saúde</div>
             <div class="cat-desc">Problemas em unidades de saúde pública</div>
         </a>
-        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+        <a href="./solicitacoes/criar.html" class="cat-card">
             <div class="cat-emoji">🕳️</div>
             <div class="cat-name">Buracos / Vias</div>
             <div class="cat-desc">Buracos, asfalto e problemas viários</div>
         </a>
-        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+        <a href="./solicitacoes/criar.html" class="cat-card">
             <div class="cat-emoji">💡</div>
             <div class="cat-name">Iluminação Pública</div>
             <div class="cat-desc">Lâmpadas apagadas e postes com defeito</div>
         </a>
-        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+        <a href="./solicitacoes/criar.html" class="cat-card">
             <div class="cat-emoji">🏫</div>
             <div class="cat-name">Segurança Escolar</div>
             <div class="cat-desc">Ocorrências em escolas e zonas escolares</div>
         </a>
-        <a th:href="@{/solicitacoes/nova}" class="cat-card">
+        <a href="./solicitacoes/criar.html" class="cat-card">
             <div class="cat-emoji">🧹</div>
             <div class="cat-name">Limpeza Urbana</div>
             <div class="cat-desc">Coleta de lixo e limpeza de ruas</div>
@@ -127,7 +127,7 @@
                 Já temos <strong th:text="${totalSolicitacoes}">0</strong> ocorrência(s) registrada(s). Registre a sua e faça a diferença!
             </div>
         </div>
-        <a th:href="@{/solicitacoes/nova}" class="btn btn-primary btn-lg">
+        <a href="./solicitacoes/criar.html" class="btn btn-primary btn-lg">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Criar Protocolo agora
         </a>
