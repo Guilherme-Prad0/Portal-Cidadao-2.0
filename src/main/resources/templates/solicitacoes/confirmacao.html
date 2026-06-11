@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Protocolo Criado — Portal Cidadão</title>
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
+</head>
+<body>
+<nav class="topnav">
+    <a class="topnav-brand" th:href="@{/}"><div class="topnav-logo">P</div><div><span class="topnav-name">Portal Cidadão</span><span class="topnav-sub">Prefeitura Municipal</span></div></a>
+</nav>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+    <div class="modal">
+        <button onclick="fechar()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:1.3rem;" title="Fechar">✕</button>
+        <div class="modal-icon">✓</div>
+        <h2 style="font-size:1.4rem;font-weight:800;letter-spacing:-.5px;margin-bottom:8px;">Protocolo criado!</h2>
+        <p style="color:var(--text-secondary);font-size:.875rem;line-height:1.6;margin-bottom:4px;">Guarde este número para acompanhar sua solicitação.</p>
+        <div class="proto-box" id="protoBox" onclick="copiar()" th:text="${protocolo}">SOL-2024-0000000000000</div>
+        <p id="copyHint" style="font-size:.72rem;color:var(--text-muted);margin-top:-12px;margin-bottom:20px;">Clique para copiar</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            <a th:href="@{/solicitacoes/consultar(protocolo=${protocolo})}" class="btn btn-primary btn-block btn-lg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Acompanhar minha solicitação
+            </a>
+            <a th:href="@{/solicitacoes/nova}" class="btn btn-outline btn-block">Criar outra solicitação</a>
+            <a th:href="@{/}" class="btn btn-ghost btn-block">Voltar ao início</a>
+        </div>
+    </div>
+</div>
+
+<!-- Fundo desfocado com resumo -->
+<div class="main-full" style="max-width:700px;filter:blur(2px);pointer-events:none;">
+    <div class="card" th:if="${solicitacao}">
+        <div class="card-title" style="margin-bottom:16px;">Resumo da solicitação criada</div>
+        <div class="info-list">
+            <div class="info-row"><span class="info-label">Protocolo</span><span class="info-value mono" style="font-size:.78rem;" th:text="${solicitacao.protocolo}"></span></div>
+            <div class="info-row"><span class="info-label">Categoria</span><span class="info-value"><span class="badge badge-cat" th:text="${solicitacao.categoria.descricao}"></span></span></div>
+            <div class="info-row"><span class="info-label">Bairro</span><span class="info-value" th:text="${solicitacao.bairro}"></span></div>
+            <div class="info-row"><span class="info-label">Prioridade</span><span class="info-value"><span class="badge" th:classappend="${solicitacao.prioridade.name()=='ALTA'?'badge-alta':solicitacao.prioridade.name()=='MEDIA'?'badge-media':'badge-baixa'}" th:text="${solicitacao.prioridade.descricao}"></span></span></div>
+            <div class="info-row"><span class="info-label">Status</span><span class="info-value"><span class="badge badge-aberto" th:text="${solicitacao.status.descricao}"></span></span></div>
+            <div class="info-row"><span class="info-label">Prazo</span><span class="info-value mono" th:text="${#temporals.format(solicitacao.prazo,'dd/MM/yyyy')}"></span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function fechar(){document.getElementById('overlay').style.display='none';document.querySelector('.main-full').style.filter='none';document.querySelector('.main-full').style.pointerEvents='auto';}
+    function copiar(){var t=document.getElementById('protoBox').textContent.trim();navigator.clipboard.writeText(t).then(function(){var h=document.getElementById('copyHint');h.textContent='✓ Copiado!';h.style.color='var(--g600)';setTimeout(function(){h.textContent='Clique para copiar';h.style.color='';},2000);});}
+</script>
+</body>
+</html>
