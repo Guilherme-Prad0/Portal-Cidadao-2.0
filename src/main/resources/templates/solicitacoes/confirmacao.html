@@ -42,9 +42,7 @@
     </div>
 </div>
 
-<script>
-    function fechar(){document.getElementById('overlay').style.display='none';document.querySelector('.main-full').style.filter='none';document.querySelector('.main-full').style.pointerEvents='auto';}
-    function copiar(){var t=document.getElementById('protoBox').textContent.trim();navigator.clipboard.writeText(t).then(function(){var h=document.getElementById('copyHint');h.textContent='✓ Copiado!';h.style.color='var(--g600)';setTimeout(function(){h.textContent='Clique para copiar';h.style.color='';},2000);});}
-</script>
+<script th:src="@{/js/confirmacao.js}"></script>
+
 </body>
 </html>
