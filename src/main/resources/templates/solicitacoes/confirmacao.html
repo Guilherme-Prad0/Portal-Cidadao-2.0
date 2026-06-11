@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Protocolo Criado — Portal Cidadão</title>
-    <link rel="stylesheet" th:href="@{/css/portal.css}">
-</head>
+    <link rel="stylesheet" th:href="@{/css/portal.css}"></head>
 <body>
 <nav class="topnav">
     <a class="topnav-brand" th:href="@{/}"><div class="topnav-logo">P</div><div><span class="topnav-name">Portal Cidadão</span><span class="topnav-sub">Prefeitura Municipal</span></div></a>
 </nav>
 
-<!-- MODAL -->
 <div class="overlay" id="overlay">
     <div class="modal">
         <button onclick="fechar()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:1.3rem;" title="Fechar">✕</button>
@@ -30,7 +28,6 @@
     </div>
 </div>
 
-<!-- Fundo desfocado com resumo -->
 <div class="main-full" style="max-width:700px;filter:blur(2px);pointer-events:none;">
     <div class="card" th:if="${solicitacao}">
         <div class="card-title" style="margin-bottom:16px;">Resumo da solicitação criada</div>

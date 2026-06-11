@@ -21,7 +21,6 @@ public class UserService {
         return userRepository.save(usuario);
     }
 
-    // ADICIONADO: cadastro de novo cidadão
     @Transactional
     public UserModel cadastrar(CadastroDTO dto) {
         if (userRepository.existsByEmail(dto.getEmail()))
@@ -40,7 +39,6 @@ public class UserService {
         );
     }
 
-    // ADICIONADO: login de cidadão por e-mail/senha
     public UserModel autenticarCidadao(String email, String senha) {
         UserModel user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("E-mail não encontrado."));
@@ -51,7 +49,6 @@ public class UserService {
         return user;
     }
 
-    // ADICIONADO: login de administrador
     public UserModel autenticarAdmin(String email, String senha) {
         UserModel user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));

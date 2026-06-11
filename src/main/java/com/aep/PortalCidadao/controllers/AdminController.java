@@ -32,7 +32,6 @@ public class AdminController {
         return "redirect:/login?erro=Acesso+restrito+ao+administrador";
     }
 
-    // Painel principal
     @GetMapping
     public String painel(Model model, HttpSession session) {
         if (!isAdmin(session)) return semAcesso();
@@ -43,7 +42,6 @@ public class AdminController {
         return "admin/painel";
     }
 
-    // Filtro
     @GetMapping("/filtro")
     public String filtrar(@RequestParam(required = false) String bairro,
                           @RequestParam(required = false) Categoria categoria,
@@ -56,7 +54,6 @@ public class AdminController {
         return "admin/painel";
     }
 
-    // Visualizar/editar protocolo
     @GetMapping("/solicitacao/{protocolo}")
     public String visualizar(@PathVariable String protocolo,
                              Model model, HttpSession session) {
@@ -72,7 +69,6 @@ public class AdminController {
         }
     }
 
-    // Atualizar status
     @PostMapping("/solicitacao/{protocolo}/status")
     public String atualizarStatus(@PathVariable String protocolo,
                                   @RequestParam Status status,
@@ -89,7 +85,6 @@ public class AdminController {
         }
     }
 
-    // ADICIONADO: editar dados gerais
     @PostMapping("/solicitacao/{protocolo}/editar")
     public String editar(@PathVariable String protocolo,
                          @ModelAttribute SolicitacaoDTO dto,
@@ -105,7 +100,6 @@ public class AdminController {
         }
     }
 
-    // ADICIONADO: excluir protocolo
     @PostMapping("/solicitacao/{protocolo}/excluir")
     public String excluir(@PathVariable String protocolo, HttpSession session) {
         if (!isAdmin(session)) return semAcesso();

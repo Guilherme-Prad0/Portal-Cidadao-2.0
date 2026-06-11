@@ -45,8 +45,6 @@ public class SolicitacaoModel {
 
     @Column(length = 1000)
     private String justificativaAtraso;
-
-    // ADICIONADO: caminho da imagem (opcional)
     private String imagemPath;
 
     @OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -91,7 +89,6 @@ public class SolicitacaoModel {
         }
     }
 
-    // Calculado em tempo real — não depende do campo persistido
     public boolean isAtrasado() {
         return prazo != null
                 && LocalDateTime.now().isAfter(prazo)

@@ -11,19 +11,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DataInitializer {
+public class DadosIniciais {
 
     @Bean
     CommandLineRunner seed(UserRepository userRepo, SolicitacaoRepository solRepo) {
         return args -> {
             if (userRepo.count() > 0) return; // evita duplicatas ao reiniciar
 
-            // ── Administrador ─────────────────────────────────────────────
+            // ── Administrador ──
             UserModel admin = UserModel.criarAdmin(
                     "Administrador", "admin@prefeitura.gov.br", "admin123");
             userRepo.save(admin);
 
-            // ── Cidadãos de exemplo ───────────────────────────────────────
+            // ── Cidadãos de exemplo ──
             UserModel joao = new UserModel(
                     "João Silva", "12345678901", "joao@email.com", "44999990001", "senha123");
             UserModel maria = new UserModel(
@@ -35,7 +35,7 @@ public class DataInitializer {
 
             // ── 5 protocolos com status e categorias variados ─────────────
 
-            // 1. ABERTO — buraco no Centro
+            // 1. ABERTO
             SolicitacaoModel s1 = new SolicitacaoModel(
                     Categoria.BURACO,
                     "Buraco de aproximadamente 1 metro de diâmetro na Av. Brasil esquina com Rua das Flores. "
@@ -43,7 +43,7 @@ public class DataInitializer {
                     "Centro", joao);
             solRepo.save(s1);
 
-            // 2. EM_EXECUCAO — iluminação no Jardim Alvorada
+            // 2. EM_EXECUCAO
             SolicitacaoModel s2 = new SolicitacaoModel(
                     Categoria.ILUMINACAO,
                     "Três postes sem iluminação na Rua Ipê, entre os números 100 e 200. "
@@ -53,7 +53,7 @@ public class DataInitializer {
             s2.atualizarStatus(Status.EM_EXECUCAO, "Secretaria de Obras", "Equipe agendada para reparo na quinta-feira.");
             solRepo.save(s2);
 
-            // 3. RESOLVIDO — saúde no Zona Norte
+            // 3. RESOLVIDO
             SolicitacaoModel s3 = new SolicitacaoModel(
                     Categoria.SAUDE,
                     "UBS do bairro está sem médico há duas semanas. Pacientes sendo orientados a procurar pronto-socorro.",
@@ -63,7 +63,7 @@ public class DataInitializer {
             s3.atualizarStatus(Status.RESOLVIDO, "Secretaria de Saúde", "Médico efetivo contratado e em atividade.");
             solRepo.save(s3);
 
-            // 4. ENCERRADO — limpeza no Parque Industrial (anônimo)
+            // 4. ENCERRADO
             SolicitacaoModel s4 = new SolicitacaoModel(
                     Categoria.LIMPEZA,
                     "Acúmulo de lixo em terreno baldio na Rua das Indústrias próximo ao número 450. "
@@ -76,7 +76,7 @@ public class DataInitializer {
             s4.atualizarStatus(Status.ENCERRADO, "Limpeza Urbana", "Caso encerrado após confirmação.");
             solRepo.save(s4);
 
-            // 5. TRIAGEM — segurança escolar no Vila Nova
+            // 5. TRIAGEM
             SolicitacaoModel s5 = new SolicitacaoModel(
                     Categoria.SEGURANCA_ESCOLAR,
                     "Muro da Escola Municipal Rui Barbosa com trinca visível e risco de queda. "
@@ -90,7 +90,6 @@ public class DataInitializer {
             System.out.println("  Admin  : admin@prefeitura.gov.br / admin123");
             System.out.println("  Cidadão: joao@email.com / senha123");
             System.out.println("  Cidadão: maria@email.com / senha123");
-            System.out.println("  5 protocolos de exemplo criados");
             System.out.println("=================================================");
         };
     }

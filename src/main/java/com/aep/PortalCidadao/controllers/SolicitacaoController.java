@@ -19,14 +19,12 @@ public class SolicitacaoController {
     @Autowired
     private SolicitacaoService solicitacaoService;
 
-    // Lista pública
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("solicitacoes", solicitacaoService.listar());
         return "solicitacoes/lista";
     }
 
-    // Formulário nova solicitação
     @GetMapping("/nova")
     public String novaSolicitacao(Model model, HttpSession session) {
         model.addAttribute("categorias", Categoria.values());
@@ -36,7 +34,6 @@ public class SolicitacaoController {
         return "solicitacoes/nova";
     }
 
-    // POST criar — redireciona para tela de confirmação com pop-up
     @PostMapping("/criar")
     public String criar(@ModelAttribute SolicitacaoDTO dto,
                         @RequestParam(value = "imagem", required = false) MultipartFile imagem,
@@ -57,7 +54,6 @@ public class SolicitacaoController {
         }
     }
 
-    // ADICIONADO: GET /consultar?protocolo=... (tela de busca do cidadão)
     @GetMapping("/consultar")
     public String consultar(@RequestParam(required = false) String protocolo,
                             Model model) {
@@ -73,7 +69,6 @@ public class SolicitacaoController {
         return "solicitacoes/consultar";
     }
 
-    // Detalhe por URL direta
     @GetMapping("/{protocolo}")
     public String detalhe(@PathVariable String protocolo, Model model) {
         try {

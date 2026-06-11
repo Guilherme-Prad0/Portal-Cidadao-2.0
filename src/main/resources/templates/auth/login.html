@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar — Portal Cidadão</title>
-    <link rel="stylesheet" th:href="@{/css/portal.css}">
-</head>
+    <link rel="stylesheet" th:href="@{/css/portal.css}"></head>
 <body>
 <div class="login-page">
 
-    <!-- ── Esquerda ── -->
     <div class="login-left">
         <div class="login-left-brand">
             <div class="logo">P</div>
@@ -28,7 +26,6 @@
         </div>
     </div>
 
-    <!-- ── Direita ── -->
     <div class="login-right fade-in">
         <div class="login-logo">
             <div class="login-logo-icon">P</div>
@@ -40,7 +37,6 @@
         <h1 class="login-title">Bem-vindo</h1>
         <p class="login-sub">Escolha como deseja acessar</p>
 
-        <!-- Abas -->
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border:1.5px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin-bottom:28px;">
             <button class="role-btn active" onclick="setTab('login')"    id="tab-login"    type="button">Entrar</button>
             <button class="role-btn"        onclick="setTab('cadastro')" id="tab-cadastro" type="button">Cadastro</button>
@@ -48,13 +44,11 @@
             <button class="role-btn"        onclick="setTab('admin')"    id="tab-admin"    type="button">🛡 Admin</button>
         </div>
 
-        <!-- Erro -->
         <div th:if="${erro}" class="alert alert-error" id="errBox">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <span th:text="${erro}"></span>
         </div>
 
-        <!-- ABA: ENTRAR -->
         <div id="panel-login">
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
@@ -78,7 +72,6 @@
             </form>
         </div>
 
-        <!-- ABA: CADASTRO -->
         <div id="panel-cadastro" style="display:none;">
             <form th:action="@{/cadastro}" method="post">
                 <div class="form-row col-2">
@@ -120,7 +113,6 @@
             </form>
         </div>
 
-        <!-- ABA: ANÔNIMO -->
         <div id="panel-anonimo" style="display:none;">
             <div class="alert alert-info" style="margin-bottom:24px;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -130,10 +122,8 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                 Entrar anonimamente
             </a>
-            <a th:href="@{/solicitacoes}" class="btn btn-ghost btn-block">Ver protocolos sem entrar</a>
         </div>
 
-        <!-- ABA: ADMIN -->
         <div id="panel-admin" style="display:none;">
             <div class="alert alert-warning" style="margin-bottom:20px;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -158,7 +148,7 @@
         </div>
 
         <div class="divider" style="margin-top:28px;"></div>
-        <p style="text-align:center;font-size:.72rem;color:var(--text-muted);">Portal Cidadão © 2024 — Prefeitura Municipal</p>
+        <p style="text-align:center;font-size:.72rem;color:var(--text-muted);">Portal Cidadão © 2026 — Prefeitura Municipal</p>
     </div>
 </div>
 

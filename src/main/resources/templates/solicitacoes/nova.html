@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Protocolo — Portal Cidadão</title>
-    <link rel="stylesheet" th:href="@{/css/portal.css}">
-</head>
+    <link rel="stylesheet" th:href="@{/css/portal.css}"></head>
 <body>
 
 <nav class="topnav">
@@ -15,7 +14,7 @@
     </a>
     <ul class="topnav-links">
         <li><a th:href="@{/}">Início</a></li>
-        <li><a th:href="@{/solicitacoes}">Protocolos</a></li>
+        <li><a th:href="@{/solicitacoes/nova}">Protocolos</a></li>
         <li><a th:href="@{/solicitacoes/consultar}">Acompanhar</a></li>
     </ul>
     <div class="topnav-right">
@@ -49,11 +48,9 @@
     <div class="card fade-in">
         <form th:action="@{/solicitacoes/criar}" method="post" enctype="multipart/form-data" id="formSol">
 
-            <!-- SEÇÃO 1: Dados do solicitante -->
             <div class="form-section">
                 <div class="form-section-title"><div class="icon">👤</div>Dados do Solicitante</div>
 
-                <!-- Se logado: mostra info e não pede campos -->
                 <div th:if="${usuarioLogado != null and !usuarioLogado.anonimo}"
                      style="background:var(--g50);border:1.5px solid var(--g200);border-radius:var(--r-md);padding:16px;">
                     <div style="font-size:.78rem;font-weight:700;color:var(--g700);margin-bottom:4px;">Solicitando como:</div>
@@ -62,7 +59,6 @@
                     <input type="hidden" name="anonimo" value="false">
                 </div>
 
-                <!-- Se não logado: toggle anônimo -->
                 <div th:if="${usuarioLogado == null}">
                     <label class="check-label" id="anonLabel" style="margin-bottom:20px;" for="chkAnonimo">
                         <input type="checkbox" name="anonimo" id="chkAnonimo" value="true" onchange="toggleAnonimo(this)">
@@ -74,7 +70,6 @@
                         </div>
                     </label>
 
-                    <!-- Campos identificado (padrão) -->
                     <div id="dadosIdentificado">
                         <div class="form-row col-2">
                             <div class="form-group">
@@ -100,7 +95,6 @@
                         </div>
                     </div>
 
-                    <!-- Campos anônimo: somente nome -->
                     <div id="dadosAnonimo" style="display:none;">
                         <div class="form-group">
                             <label class="form-label">Nome (como prefere ser chamado) <span class="req">*</span></label>
@@ -113,7 +107,6 @@
                 </div>
             </div>
 
-            <!-- SEÇÃO 2: Local e tipo -->
             <div class="form-section">
                 <div class="form-section-title"><div class="icon">📍</div>Local e Tipo de Solicitação</div>
                 <div class="form-row col-2">
@@ -134,7 +127,6 @@
                 <div id="prioPreview" style="display:none;padding:12px 16px;border-radius:var(--r-md);border:1.5px solid;font-size:.82rem;font-weight:600;"></div>
             </div>
 
-            <!-- SEÇÃO 3: Descrição -->
             <div class="form-section">
                 <div class="form-section-title"><div class="icon">📝</div>Descrição do Problema</div>
                 <div class="form-group">
@@ -152,7 +144,6 @@
                 </div>
             </div>
 
-            <!-- SEÇÃO 4: Imagem (opcional) -->
             <div class="form-section">
                 <div class="form-section-title">
                     <div class="icon">📷</div>
@@ -174,7 +165,6 @@
                 </div>
             </div>
 
-            <!-- Ações -->
             <div style="display:flex;gap:12px;justify-content:flex-end;padding-top:8px;border-top:1px solid var(--border-soft);">
                 <a th:href="@{/}" class="btn btn-ghost">Cancelar</a>
                 <button type="reset" class="btn btn-outline" onclick="resetForm()">Limpar</button>

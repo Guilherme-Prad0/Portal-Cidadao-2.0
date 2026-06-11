@@ -15,7 +15,6 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    // GET /login
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String erro, Model model) {
         if (erro != null) model.addAttribute("erro", erro);
@@ -23,7 +22,7 @@ public class AuthController {
         return "auth/login";
     }
 
-    // POST /login — cidadão com conta
+    //login com conta
     @PostMapping("/login")
     public String loginCidadao(@RequestParam String email,
                                @RequestParam String senha,
@@ -37,15 +36,14 @@ public class AuthController {
         }
     }
 
-    // GET /login/anonimo
+    //anonimo
     @GetMapping("/login/anonimo")
     public String entrarAnonimo(HttpSession session) {
         session.setAttribute("acessoAnonimo", true);
         return "redirect:/";
     }
 
-    // GET /cadastro — página separada não necessária, usa a aba do login
-    // POST /cadastro
+    //cadastro
     @PostMapping("/cadastro")
     public String cadastrar(@ModelAttribute CadastroDTO dto,
                             HttpSession session, Model model) {
@@ -60,7 +58,7 @@ public class AuthController {
         }
     }
 
-    // POST /admin/login
+    //admin=login
     @PostMapping("/admin/login")
     public String loginAdmin(@RequestParam String email,
                              @RequestParam String senha,
@@ -75,7 +73,7 @@ public class AuthController {
         }
     }
 
-    // GET /logout
+    //logout
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();

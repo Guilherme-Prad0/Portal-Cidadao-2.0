@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo — Portal Cidadão</title>
-    <link rel="stylesheet" th:href="@{/css/portal.css}">
-</head>
+    <link rel="stylesheet" th:href="@{/css/portal.css}"></head>
 <body>
 
 <nav class="topnav">
@@ -27,7 +26,6 @@
 
 <div class="layout-admin">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-group">
             <div class="sidebar-group-label">Principal</div>
@@ -38,32 +36,9 @@
                         Painel
                     </a>
                 </li>
-                <li>
-                    <a th:href="@{/users}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        Usuários
-                    </a>
-                </li>
             </ul>
         </div>
-        <div class="sidebar-group">
-            <div class="sidebar-group-label">Protocolos</div>
-            <ul class="sidebar-nav">
-                <li>
-                    <a th:href="@{/admin}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 16h6M9 8h6M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>
-                        Todos os protocolos
-                        <span class="sidebar-nav-badge" th:text="${#lists.size(solicitacoes)}">0</span>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/filtro(bairro='',categoria='')}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-                        Filtrar por critério
-                    </a>
-                </li>
-            </ul>
-        </div>
+
         <div class="sidebar-footer">
             <div class="sidebar-user">
                 <div class="sidebar-avatar">AD</div>
@@ -75,7 +50,6 @@
         </div>
     </aside>
 
-    <!-- MAIN -->
     <main class="main">
 
         <div class="page-row page-header">
@@ -85,7 +59,6 @@
             </div>
         </div>
 
-        <!-- STATS -->
         <div class="stats-grid stagger">
             <div class="stat-card green">
                 <div class="stat-card-icon">📋</div>
@@ -112,7 +85,6 @@
             </div>
         </div>
 
-        <!-- FILTROS -->
         <form th:action="@{/admin/filtro}" method="get">
             <div class="filter-bar">
                 <div class="filter-search">
@@ -137,7 +109,6 @@
             </div>
         </form>
 
-        <!-- TABELA -->
         <div class="table-wrap">
             <table class="data-table">
                 <thead>

@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- TOPNAV -->
 <nav class="topnav">
     <a class="topnav-brand" th:href="@{/}">
         <div class="topnav-logo">P</div>
@@ -23,12 +22,10 @@
         <li><a th:href="@{/solicitacoes/consultar}">Acompanhar</a></li>
     </ul>
     <div class="topnav-right">
-        <!-- Botão "Área do Gestor" SOMENTE para admin -->
         <a th:if="${isAdmin}" th:href="@{/admin}" class="btn btn-ghost btn-sm">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Área do Gestor
         </a>
-        <!-- Usuário logado -->
         <span th:if="${usuarioLogado != null and !usuarioLogado.anonimo}"
               style="font-size:.76rem;color:var(--text-muted);padding:5px 12px;background:var(--g50);border-radius:99px;border:1px solid var(--g200);">
       👤 <span th:text="${usuarioLogado.nome}"></span>
@@ -52,69 +49,77 @@
     <div class="carousel-wrap">
         <div class="carousel-track" id="track">
 
-            <!-- Slide 1: Hero principal -->
-            <div class="carousel-slide">
+            <div class="carousel-slide"
+                 style="
+             background:
+             linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+             url('/images/cidade.jpeg');
+             background-size: cover;
+             background-position: center;
+             color: white;">
+
                 <div class="slide-eyebrow">Prefeitura Municipal</div>
                 <h1>Portal do<br>Cidadão</h1>
-                <p>Registre ocorrências urbanas, acompanhe solicitações e contribua para uma cidade mais organizada e transparente.</p>
-                <div class="slide-actions">
-                    <a th:href="@{/solicitacoes/nova}" class="btn btn-white btn-lg">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                        Criar Protocolo
-                    </a>
-                    <a th:href="@{/solicitacoes/consultar}" class="btn btn-outline-white btn-lg">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                        Consultar Protocolo
-                    </a>
-                </div>
-                <div class="slide-stat">
-                    <div class="slide-stat-num" th:text="${totalSolicitacoes}">0</div>
-                    <div class="slide-stat-lbl">solicitações registradas</div>
-                </div>
+
+                <p>
+                    Registre ocorrências urbanas, acompanhe solicitações e
+                    contribua para uma cidade mais organizada e transparente.
+                </p>
+
             </div>
 
-            <!-- Slide 2: Como funciona -->
-            <div class="carousel-slide" style="background:linear-gradient(135deg,#0f4c2e 0%,#16803d 50%,#22c55e 100%);">
+            <div class="carousel-slide"
+                 style="
+             background:
+             linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+             url('/images/solicitacao.jpeg');
+             background-size: cover;
+             background-position: center;
+             color: white;">
+
                 <div class="slide-eyebrow">Simples e rápido</div>
                 <h1>Como<br>Funciona?</h1>
-                <p>Em menos de 2 minutos você registra uma ocorrência e recebe um número de protocolo para acompanhamento.</p>
-                <div class="slide-actions">
-                    <a th:href="@{/solicitacoes/nova}" class="btn btn-white btn-lg">
-                        Começar agora
-                    </a>
-                </div>
+
+                <p>
+                    Em menos de 2 minutos você registra uma ocorrência
+                    e recebe um número de protocolo para acompanhamento.
+                </p>
+
                 <div class="slide-stat">
-                    <div style="font-size:3rem;opacity:.8;">📋</div>
-                    <div class="slide-stat-lbl" style="margin-top:8px;">4 etapas simples</div>
+                    <div style="font-size:3rem;">📋</div>
+                    <div class="slide-stat-lbl" style="margin-top:8px;">
+                        4 etapas simples
+                    </div>
                 </div>
             </div>
 
-            <!-- Slide 3: Segurança e privacidade -->
-            <div class="carousel-slide" style="background:linear-gradient(135deg,#14532d 0%,#15803d 50%,#4ade80 100%);">
+            <div class="carousel-slide"
+                 style="
+             background:
+             linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+             url('/images/security.jpeg');
+             background-size: cover;
+             background-position: center;
+             color: white;">
+
                 <div class="slide-eyebrow">Privacidade garantida</div>
                 <h1>Modo<br>Anônimo</h1>
-                <p>Você pode registrar ocorrências sem revelar sua identidade. Disponível para todos, sem cadastro necessário.</p>
-                <div class="slide-actions">
-                    <a th:href="@{/login/anonimo}" class="btn btn-white btn-lg">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                        Acessar anonimamente
-                    </a>
-                </div>
-                <div class="slide-stat">
-                    <div style="font-size:3rem;opacity:.8;">🕵️</div>
-                    <div class="slide-stat-lbl" style="margin-top:8px;">100% privado</div>
-                </div>
+
+                <p>
+                    Você pode registrar ocorrências sem revelar sua identidade.
+                    Disponível para todos, sem cadastro necessário.
+                </p>
+
             </div>
 
         </div>
 
-        <!-- Controles -->
         <button class="carousel-btn prev" onclick="move(-1)">&#8249;</button>
         <button class="carousel-btn next" onclick="move(1)">&#8250;</button>
+
         <div class="carousel-dots" id="dots"></div>
     </div>
 
-    <!-- CATEGORIAS -->
     <div class="section-label">Categorias mais acessadas</div>
     <div class="cat-grid stagger">
         <a th:href="@{/solicitacoes/nova}" class="cat-card">
@@ -144,7 +149,6 @@
         </a>
     </div>
 
-    <!-- COMO FUNCIONA -->
     <div class="card" style="margin-bottom:32px;">
         <div class="card-header">
             <div>
@@ -160,7 +164,6 @@
         </div>
     </div>
 
-    <!-- CTA -->
     <div class="cta-banner">
         <div>
             <div class="cta-banner-title">Viu um problema na cidade?</div>

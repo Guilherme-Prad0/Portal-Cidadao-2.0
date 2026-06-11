@@ -20,9 +20,7 @@ public class HomeController {
 
         UserModel usuario = (UserModel) session.getAttribute("usuarioLogado");
         model.addAttribute("usuarioLogado", usuario);
-        // ADICIONADO: flag para esconder botão do gestor para não-admins
         model.addAttribute("isAdmin", usuario != null && usuario.isAdmin());
-
         return "index";
     }
 }

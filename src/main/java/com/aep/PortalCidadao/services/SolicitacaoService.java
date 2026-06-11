@@ -32,8 +32,7 @@ public class SolicitacaoService {
     @Value("${upload.dir:uploads}")
     private String uploadDir;
 
-    // ── Criar solicitaçãO
-
+    // Criar solicitação
     @Transactional
     public SolicitacaoModel criar(SolicitacaoDTO dto,
                                   UserModel usuarioLogado,
@@ -47,12 +46,10 @@ public class SolicitacaoService {
 
         boolean anonimo = Boolean.TRUE.equals(dto.getAnonimo());
 
-        // ALTERADO: mínimo de 100 chars para anônimos (era 15)
         if (anonimo && dto.getDescricao().trim().length() < 100)
             throw new RuntimeException(
                     "Solicitação anônima requer descrição com mínimo 100 caracteres.");
 
-        // Resolve o usuário
         UserModel usuario;
         if (anonimo) {
             usuario = UserModel.criarAnonimo();
@@ -60,7 +57,6 @@ public class SolicitacaoService {
         } else if (usuarioLogado != null) {
             usuario = usuarioLogado;
         } else {
-            // Não logado e não anônimo: valida e persiste sem senha
             validarDadosPessoais(dto);
             String cpfLimpo = dto.getCpf().replaceAll("\\D", "");
             usuario = new UserModel(dto.getNome(), cpfLimpo,
@@ -79,19 +75,16 @@ public class SolicitacaoService {
         return repository.save(sol);
     }
 
-    // ── Buscar por protocolo (ALTERADO: usa Optional) ─────────────────────
     public SolicitacaoModel acompanhar(String protocolo) {
         return repository.findByProtocolo(protocolo)
                 .orElseThrow(() ->
                         new RuntimeException("Protocolo \"" + protocolo + "\" não encontrado."));
     }
 
-    // ── Listar (ALTERADO: mais recentes primeiro) ─────────────────────────
     public List<SolicitacaoModel> listar() {
         return repository.findAllByOrderByDataCriacaoDesc();
     }
 
-    // ── Filtro combinado (mantido, usa novo listar) ───────────────────────
     public List<SolicitacaoModel> listarPorFiltro(String bairro, Categoria categoria) {
         return listar().stream()
                 .filter(s -> bairro == null || bairro.isBlank()
@@ -100,7 +93,6 @@ public class SolicitacaoService {
                 .toList();
     }
 
-    // ── Atualizar status (mantém lógica original + @Transactional) ────────
     @Transactional
     public void atualizarStatus(String protocolo, Status novoStatus,
                                 String responsavel, String comentario) {
@@ -115,7 +107,6 @@ public class SolicitacaoService {
         repository.save(sol);
     }
 
-    // ADICIONADO: editar dados gerais (admin)
     @Transactional
     public void editar(String protocolo, SolicitacaoDTO dto, MultipartFile imagem) {
         SolicitacaoModel sol = acompanhar(protocolo);
@@ -129,19 +120,16 @@ public class SolicitacaoService {
         repository.save(sol);
     }
 
-    // ADICIONADO: excluir protocolo (admin)
     @Transactional
     public void excluir(String protocolo) {
         repository.delete(acompanhar(protocolo));
     }
 
-    // Mantido
     public boolean protocoloValido(String protocolo) {
         return protocolo != null && !protocolo.isBlank()
                 && repository.findByProtocolo(protocolo).isPresent();
     }
 
-    // ADICIONADO: salva imagem em disco
     private String salvarImagem(MultipartFile file) {
         try {
             Path dir = Paths.get(uploadDir);

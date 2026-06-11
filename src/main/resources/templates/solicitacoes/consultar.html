@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultar Protocolo — Portal Cidadão</title>
-    <link rel="stylesheet" th:href="@{/css/portal.css}">
-</head>
+    <link rel="stylesheet" th:href="@{/css/portal.css}"></head>
 <body>
 
 <nav class="topnav">
@@ -37,7 +36,6 @@
         <p>Pesquise e acompanhe o andamento de uma solicitação registrada</p>
     </div>
 
-    <!-- Box de busca -->
     <div class="search-card">
         <form th:action="@{/solicitacoes/consultar}" method="get" id="searchForm">
             <div class="form-group" style="margin-bottom:14px;">
@@ -60,19 +58,15 @@
         </form>
     </div>
 
-    <!-- Erro -->
     <div th:if="${erro}" class="alert alert-error fade-in" style="max-width:580px;margin:0 auto 24px;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         <span th:text="${erro}">Protocolo não encontrado.</span>
     </div>
 
-    <!-- RESULTADO -->
     <div th:if="${solicitacao}" class="fade-in">
 
-        <!-- Card principal do resultado -->
         <div class="card" style="margin-bottom:16px;">
 
-            <!-- Cabeçalho do resultado -->
             <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:24px;">
                 <div>
                     <div class="section-label" style="margin-bottom:8px;">Protocolo encontrado</div>
@@ -94,7 +88,6 @@
                 </div>
             </div>
 
-            <!-- Pipeline de progresso -->
             <div style="margin-bottom:28px;">
                 <div class="section-label" style="margin-bottom:14px;">Progresso do atendimento</div>
                 <div class="pipeline">
@@ -136,7 +129,6 @@
                 </div>
             </div>
 
-            <!-- Informações -->
             <div class="info-list">
                 <div class="info-row">
                     <span class="info-label">Categoria</span>
@@ -172,7 +164,6 @@
             </div>
         </div>
 
-        <!-- Timeline de histórico -->
         <div class="card" style="margin-bottom:16px;">
             <div class="card-header">
                 <div>
@@ -206,7 +197,6 @@
             </div>
         </div>
 
-        <!-- Ações -->
         <div style="display:flex;gap:12px;justify-content:flex-end;">
             <a th:href="@{/solicitacoes/consultar}" class="btn btn-outline">Nova consulta</a>
             <button onclick="window.print()" class="btn btn-ghost">
