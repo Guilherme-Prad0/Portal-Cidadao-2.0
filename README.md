@@ -38,7 +38,7 @@ O Portal Cidadão é um sistema de gestão de solicitações públicas via termi
 
 ## 📌 Status do Projeto
 
-🚧 Em desenvolvimento — Projeto acadêmico (AEP 5º Semestre)
+🚧 Finalizado — Projeto acadêmico (AEP 5º Semestre)
 
 Executar:
 mvn spring-boot:run
