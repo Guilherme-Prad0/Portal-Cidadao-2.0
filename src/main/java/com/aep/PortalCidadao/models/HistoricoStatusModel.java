@@ -16,9 +16,11 @@ public class HistoricoStatusModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Enumerated(EnumType.STRING)
     private Status status;
     private String responsavel;
+
     @Column(length = 1000)
     private String comentario;
     private LocalDateTime data;
@@ -27,11 +29,12 @@ public class HistoricoStatusModel {
     @JoinColumn(name = "solicitacao_id")
     private SolicitacaoModel solicitacao;
 
-    public HistoricoStatusModel(Status status, String responsavel, String comentario, SolicitacaoModel solicitacao) {
-        this.status = status;
+    public HistoricoStatusModel(Status status, String responsavel,
+                                String comentario, SolicitacaoModel solicitacao) {
+        this.status      = status;
         this.responsavel = responsavel;
-        this.comentario = comentario;
+        this.comentario  = comentario;
         this.solicitacao = solicitacao;
-        this.data = LocalDateTime.now();
+        this.data        = LocalDateTime.now();
     }
 }

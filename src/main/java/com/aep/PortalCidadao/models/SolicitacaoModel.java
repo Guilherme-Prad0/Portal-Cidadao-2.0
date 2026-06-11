@@ -25,6 +25,7 @@ public class SolicitacaoModel {
 
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
+
     @Column(length = 2000)
     private String descricao;
     private String bairro;
@@ -45,32 +46,28 @@ public class SolicitacaoModel {
     @Column(length = 1000)
     private String justificativaAtraso;
 
+    // ADICIONADO: caminho da imagem (opcional)
+    private String imagemPath;
+
     @OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HistoricoStatusModel> historico = new ArrayList<>();
 
-    public SolicitacaoModel(Categoria categoria, String descricao, String bairro, UserModel usuario) {
-        this.protocolo = gerarProtocolo();
-        this.categoria = categoria;
-        this.descricao = descricao;
-        this.bairro = bairro;
-        this.usuario = usuario;
-        this.status = Status.ABERTO;
+    public SolicitacaoModel(Categoria categoria, String descricao,
+                            String bairro, UserModel usuario) {
+        this.protocolo   = gerarProtocolo();
+        this.categoria   = categoria;
+        this.descricao   = descricao;
+        this.bairro      = bairro;
+        this.usuario     = usuario;
+        this.status      = Status.ABERTO;
         this.dataCriacao = LocalDateTime.now();
-        this.prioridade = definirPrioridade();
-        this.prazo = definirPrazo();
+        this.prioridade  = definirPrioridade();
+        this.prazo       = definirPrazo();
     }
 
     public void atualizarStatus(Status novoStatus, String responsavel, String comentario) {
         this.status = novoStatus;
-
-        HistoricoStatusModel historicoStatus =
-                new HistoricoStatusModel(
-                        novoStatus,
-                        responsavel,
-                        comentario,
-                        this
-                );
-        historico.add(historicoStatus);
+        historico.add(new HistoricoStatusModel(novoStatus, responsavel, comentario, this));
     }
 
     private String gerarProtocolo() {
@@ -79,37 +76,25 @@ public class SolicitacaoModel {
     }
 
     private Prioridade definirPrioridade() {
-
-        if (categoria == Categoria.SAUDE ||
-                categoria == Categoria.SEGURANCA_ESCOLAR) {
+        if (categoria == Categoria.SAUDE || categoria == Categoria.SEGURANCA_ESCOLAR)
             return Prioridade.ALTA;
-        }
-
-        if (categoria == Categoria.ILUMINACAO ||
-                categoria == Categoria.BURACO) {
+        if (categoria == Categoria.ILUMINACAO || categoria == Categoria.BURACO)
             return Prioridade.MEDIA;
-        }
         return Prioridade.BAIXA;
     }
 
     private LocalDateTime definirPrazo() {
         switch (prioridade) {
-            case ALTA:
-                return dataCriacao.plusDays(1);
-
-            case MEDIA:
-                return dataCriacao.plusDays(3);
-
-            case BAIXA:
-                return dataCriacao.plusDays(7);
-
-            default:
-                return dataCriacao.plusDays(5);
+            case ALTA:  return dataCriacao.plusDays(1);
+            case MEDIA: return dataCriacao.plusDays(3);
+            default:    return dataCriacao.plusDays(7);
         }
     }
 
+    // Calculado em tempo real — não depende do campo persistido
     public boolean isAtrasado() {
-        return LocalDateTime.now().isAfter(prazo)
+        return prazo != null
+                && LocalDateTime.now().isAfter(prazo)
                 && status != Status.ENCERRADO;
     }
 }

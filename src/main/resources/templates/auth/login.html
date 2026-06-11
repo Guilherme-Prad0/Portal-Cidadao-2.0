@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar — Portal Cidadão</title>
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
+</head>
+<body>
+<div class="login-page">
+
+    <!-- ── Esquerda ── -->
+    <div class="login-left">
+        <div class="login-left-brand">
+            <div class="logo">P</div>
+            <div>
+                <div style="font-weight:800;font-size:1.05rem;">Portal Cidadão</div>
+                <div style="font-size:.7rem;opacity:.7;">Prefeitura Municipal</div>
+            </div>
+        </div>
+        <h2>Sua cidade mais transparente e organizada</h2>
+        <p>Registre ocorrências, acompanhe protocolos e contribua para um município melhor.</p>
+        <div class="login-feats" style="position:relative;z-index:1;">
+            <div class="login-feat"><div class="login-feat-icon">🕳️</div><span>Buracos, iluminação, saúde e mais</span></div>
+            <div class="login-feat"><div class="login-feat-icon">📋</div><span>Acompanhe pelo número de protocolo</span></div>
+            <div class="login-feat"><div class="login-feat-icon">⚡</div><span>Prioridade automática por urgência</span></div>
+            <div class="login-feat"><div class="login-feat-icon">🕵️</div><span>Modo anônimo disponível para todos</span></div>
+        </div>
+    </div>
+
+    <!-- ── Direita ── -->
+    <div class="login-right fade-in">
+        <div class="login-logo">
+            <div class="login-logo-icon">P</div>
+            <div>
+                <div class="login-logo-text">Portal Cidadão</div>
+                <div class="login-logo-sub">Prefeitura Municipal</div>
+            </div>
+        </div>
+        <h1 class="login-title">Bem-vindo</h1>
+        <p class="login-sub">Escolha como deseja acessar</p>
+
+        <!-- Abas -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border:1.5px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin-bottom:28px;">
+            <button class="role-btn active" onclick="setTab('login')"    id="tab-login"    type="button">Entrar</button>
+            <button class="role-btn"        onclick="setTab('cadastro')" id="tab-cadastro" type="button">Cadastro</button>
+            <button class="role-btn"        onclick="setTab('anonimo')"  id="tab-anonimo"  type="button">Anônimo</button>
+            <button class="role-btn"        onclick="setTab('admin')"    id="tab-admin"    type="button">🛡 Admin</button>
+        </div>
+
+        <!-- Erro -->
+        <div th:if="${erro}" class="alert alert-error" id="errBox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span th:text="${erro}"></span>
+        </div>
+
+        <!-- ABA: ENTRAR -->
+        <div id="panel-login">
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label class="form-label">E-mail <span class="req">*</span></label>
+                    <input class="form-control" type="email" name="email"
+                           placeholder="seu@email.com" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Senha <span class="req">*</span></label>
+                    <input class="form-control" type="password" name="senha"
+                           placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    Entrar
+                </button>
+                <p style="text-align:center;margin-top:14px;font-size:.78rem;color:var(--text-muted);">
+                    Não tem conta?
+                    <a href="#" onclick="setTab('cadastro');return false;" style="color:var(--brand);font-weight:600;">Cadastre-se aqui</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- ABA: CADASTRO -->
+        <div id="panel-cadastro" style="display:none;">
+            <form th:action="@{/cadastro}" method="post">
+                <div class="form-row col-2">
+                    <div class="form-group">
+                        <label class="form-label">Nome <span class="req">*</span></label>
+                        <input class="form-control" type="text" name="nome" placeholder="Nome completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">CPF <span class="req">*</span></label>
+                        <input class="form-control" type="text" name="cpf"
+                               placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">E-mail <span class="req">*</span></label>
+                    <input class="form-control" type="email" name="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Telefone</label>
+                    <input class="form-control" type="text" name="telefone"
+                           placeholder="(44) 99999-9999" oninput="maskTel(this)">
+                </div>
+                <div class="form-row col-2">
+                    <div class="form-group">
+                        <label class="form-label">Senha <span class="req">*</span></label>
+                        <input class="form-control" type="password" name="senha"
+                               placeholder="Mín. 6 caracteres" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirmar <span class="req">*</span></label>
+                        <input class="form-control" type="password" name="confirmaSenha"
+                               placeholder="Repita" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                    Criar minha conta
+                </button>
+            </form>
+        </div>
+
+        <!-- ABA: ANÔNIMO -->
+        <div id="panel-anonimo" style="display:none;">
+            <div class="alert alert-info" style="margin-bottom:24px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <div>Seus dados pessoais <strong>não serão vinculados</strong> a nenhum perfil. Solicitações anônimas exigem descrição com mínimo de <strong>100 caracteres</strong>.</div>
+            </div>
+            <a th:href="@{/login/anonimo}" class="btn btn-primary btn-block btn-lg" style="margin-bottom:12px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                Entrar anonimamente
+            </a>
+            <a th:href="@{/solicitacoes}" class="btn btn-ghost btn-block">Ver protocolos sem entrar</a>
+        </div>
+
+        <!-- ABA: ADMIN -->
+        <div id="panel-admin" style="display:none;">
+            <div class="alert alert-warning" style="margin-bottom:20px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Área restrita a servidores municipais autorizados.</span>
+            </div>
+            <form th:action="@{/admin/login}" method="post">
+                <div class="form-group">
+                    <label class="form-label">E-mail <span class="req">*</span></label>
+                    <input class="form-control" type="email" name="email"
+                           placeholder="admin@prefeitura.gov.br" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Senha <span class="req">*</span></label>
+                    <input class="form-control" type="password" name="senha"
+                           placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Entrar como Gestor
+                </button>
+            </form>
+        </div>
+
+        <div class="divider" style="margin-top:28px;"></div>
+        <p style="text-align:center;font-size:.72rem;color:var(--text-muted);">Portal Cidadão © 2024 — Prefeitura Municipal</p>
+    </div>
+</div>
+
+<script>
+    function setTab(tab) {
+      ['login','cadastro','anonimo','admin'].forEach(function(t) {
+        document.getElementById('panel-'+t).style.display = t===tab ? 'block' : 'none';
+        document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+      });
+    }
+    function maskCPF(el) {
+      var v=el.value.replace(/\D/g,'').substring(0,11);
+      v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+      el.value=v;
+    }
+    function maskTel(el) {
+      var v=el.value.replace(/\D/g,'').substring(0,11);
+      if(v.length>=7) v='('+v.substring(0,2)+') '+v.substring(2,v.length<=10?6:7)+'-'+v.substring(v.length<=10?6:7);
+      else if(v.length>2) v='('+v.substring(0,2)+') '+v.substring(2);
+      el.value=v;
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var err = document.getElementById('errBox');
+      if (err) {
+        var t = err.textContent || '';
+        if (t.includes('admin') || t.includes('Admin') || t.includes('permiss') || t.includes('Gestor'))
+          setTab('admin');
+      }
+    });
+</script>
+</body>
+</html>

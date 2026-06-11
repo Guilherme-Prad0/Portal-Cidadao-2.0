@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo — Portal Cidadão</title>
-    <link rel="stylesheet" href="../../static/css/portal.css">
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
 </head>
 <body>
 
@@ -20,7 +20,7 @@
     <span style="font-size:.75rem;color:var(--text-muted);padding:6px 12px;background:var(--g50);border-radius:99px;border:1px solid var(--g200);">
       🛡️ Administrador
     </span>
-        <a href="../index.html" class="btn btn-ghost btn-sm">Ver site público</a>
+        <a th:href="@{/}" class="btn btn-ghost btn-sm">Ver site público</a>
         <a th:href="@{/login}" class="btn btn-outline btn-sm">Sair</a>
     </div>
 </nav>

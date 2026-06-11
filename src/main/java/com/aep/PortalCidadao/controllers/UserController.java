@@ -15,7 +15,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public String listar( Model model) {
+    public String listar(Model model) {
         model.addAttribute("usuarios", userService.listar());
         return "usuarios/lista";
     }
@@ -29,20 +29,18 @@ public class UserController {
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute UserModel usuario) {
         userService.salvar(usuario);
-        return "redirect:/usuarios";
+        return "redirect:/users"; // CORRIGIDO: era /usuarios
     }
 
     @GetMapping("/{id}")
     public String visualizar(@PathVariable Long id, Model model) {
-        UserModel usuario = userService.buscarPorId(id);
-        model.addAttribute("usuario", usuario);
+        model.addAttribute("usuario", userService.buscarPorId(id));
         return "usuarios/detalhes";
     }
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
-        UserModel usuario = userService.buscarPorId(id);
-        model.addAttribute("usuario", usuario);
+        model.addAttribute("usuario", userService.buscarPorId(id));
         return "usuarios/editar";
     }
 
@@ -50,12 +48,12 @@ public class UserController {
     public String atualizar(@PathVariable Long id, @ModelAttribute UserModel usuario) {
         usuario.setId(id);
         userService.salvar(usuario);
-        return "redirect:/usuarios";
+        return "redirect:/users"; // CORRIGIDO: era /usuarios
     }
 
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable Long id) {
         userService.excluir(id);
-        return "redirect:/usuarios";
+        return "redirect:/users"; // CORRIGIDO: era /usuarios
     }
 }

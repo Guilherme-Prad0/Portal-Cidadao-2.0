@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Cidadão — Início</title>
-    <link rel="stylesheet" href="../../static/css/portal.css">
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
 </head>
 <body>
 
@@ -18,16 +18,28 @@
         </div>
     </a>
     <ul class="topnav-links">
-        <li><a href="./index.html" class="active">Início</a></li>
-        <li><a href="./solicitacoes/criar.html">Protocolos</a></li>
-        <li><a href="./solicitacoes/consultar.html">Acompanhar</a></li>
+        <li><a th:href="@{/}" class="active">Início</a></li>
+        <li><a th:href="@{/solicitacoes/nova}">Protocolos</a><li>
+        <li><a th:href="@{/solicitacoes/consultar}">Acompanhar</a></li>
     </ul>
     <div class="topnav-right">
-        <a href="./admin/painel.html" class="btn btn-ghost btn-sm">
+        <!-- Botão "Área do Gestor" SOMENTE para admin -->
+        <a th:if="${isAdmin}" th:href="@{/admin}" class="btn btn-ghost btn-sm">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Área do Gestor
         </a>
-        <a href="./solicitacoes/criar.html" class="btn btn-primary btn-sm">
+        <!-- Usuário logado -->
+        <span th:if="${usuarioLogado != null and !usuarioLogado.anonimo}"
+              style="font-size:.76rem;color:var(--text-muted);padding:5px 12px;background:var(--g50);border-radius:99px;border:1px solid var(--g200);">
+      👤 <span th:text="${usuarioLogado.nome}"></span>
+    </span>
+        <span th:if="${usuarioLogado != null and usuarioLogado.anonimo}"
+              style="font-size:.76rem;color:var(--text-muted);padding:5px 12px;background:var(--s100);border-radius:99px;border:1px solid var(--s200);">
+      🕵️ Anônimo
+    </span>
+        <a th:if="${usuarioLogado != null}" th:href="@{/logout}" class="btn btn-ghost btn-sm">Sair</a>
+        <a th:if="${usuarioLogado == null}" th:href="@{/login}" class="btn btn-ghost btn-sm">Entrar</a>
+        <a th:href="@{/solicitacoes/nova}" class="btn btn-primary btn-sm">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Criar Protocolo
         </a>
@@ -36,51 +48,96 @@
 
 <div class="main-full">
 
-    <!-- HERO -->
-    <div class="hero fade-in">
-        <div class="hero-eyebrow">Prefeitura Municipal</div>
-        <h1>Portal do<br>Cidadão</h1>
-        <p>Registre ocorrências urbanas, acompanhe o andamento das solicitações e contribua para uma cidade mais organizada e transparente.</p>
-        <div class="hero-actions">
-            <a href="./solicitacoes/criar.html" class="btn btn-white btn-lg">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Criar Protocolo
-            </a>
-            <a href="./solicitacoes/consultar.html" class="btn btn-outline-white btn-lg">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                Consultar Protocolo
-            </a>
+    <!-- CARROSSEL -->
+    <div class="carousel-wrap">
+        <div class="carousel-track" id="track">
+
+            <!-- Slide 1: Hero principal -->
+            <div class="carousel-slide">
+                <div class="slide-eyebrow">Prefeitura Municipal</div>
+                <h1>Portal do<br>Cidadão</h1>
+                <p>Registre ocorrências urbanas, acompanhe solicitações e contribua para uma cidade mais organizada e transparente.</p>
+                <div class="slide-actions">
+                    <a th:href="@{/solicitacoes/nova}" class="btn btn-white btn-lg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                        Criar Protocolo
+                    </a>
+                    <a th:href="@{/solicitacoes/consultar}" class="btn btn-outline-white btn-lg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        Consultar Protocolo
+                    </a>
+                </div>
+                <div class="slide-stat">
+                    <div class="slide-stat-num" th:text="${totalSolicitacoes}">0</div>
+                    <div class="slide-stat-lbl">solicitações registradas</div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Como funciona -->
+            <div class="carousel-slide" style="background:linear-gradient(135deg,#0f4c2e 0%,#16803d 50%,#22c55e 100%);">
+                <div class="slide-eyebrow">Simples e rápido</div>
+                <h1>Como<br>Funciona?</h1>
+                <p>Em menos de 2 minutos você registra uma ocorrência e recebe um número de protocolo para acompanhamento.</p>
+                <div class="slide-actions">
+                    <a th:href="@{/solicitacoes/nova}" class="btn btn-white btn-lg">
+                        Começar agora
+                    </a>
+                </div>
+                <div class="slide-stat">
+                    <div style="font-size:3rem;opacity:.8;">📋</div>
+                    <div class="slide-stat-lbl" style="margin-top:8px;">4 etapas simples</div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Segurança e privacidade -->
+            <div class="carousel-slide" style="background:linear-gradient(135deg,#14532d 0%,#15803d 50%,#4ade80 100%);">
+                <div class="slide-eyebrow">Privacidade garantida</div>
+                <h1>Modo<br>Anônimo</h1>
+                <p>Você pode registrar ocorrências sem revelar sua identidade. Disponível para todos, sem cadastro necessário.</p>
+                <div class="slide-actions">
+                    <a th:href="@{/login/anonimo}" class="btn btn-white btn-lg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                        Acessar anonimamente
+                    </a>
+                </div>
+                <div class="slide-stat">
+                    <div style="font-size:3rem;opacity:.8;">🕵️</div>
+                    <div class="slide-stat-lbl" style="margin-top:8px;">100% privado</div>
+                </div>
+            </div>
+
         </div>
-        <div class="hero-stat">
-            <div class="hero-stat-num" th:text="${totalSolicitacoes}">0</div>
-            <div class="hero-stat-label">solicitações registradas</div>
-        </div>
+
+        <!-- Controles -->
+        <button class="carousel-btn prev" onclick="move(-1)">&#8249;</button>
+        <button class="carousel-btn next" onclick="move(1)">&#8250;</button>
+        <div class="carousel-dots" id="dots"></div>
     </div>
 
     <!-- CATEGORIAS -->
     <div class="section-label">Categorias mais acessadas</div>
     <div class="cat-grid stagger">
-        <a href="./solicitacoes/criar.html" class="cat-card">
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
             <div class="cat-emoji">🏥</div>
             <div class="cat-name">Saúde</div>
             <div class="cat-desc">Problemas em unidades de saúde pública</div>
         </a>
-        <a href="./solicitacoes/criar.html" class="cat-card">
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
             <div class="cat-emoji">🕳️</div>
             <div class="cat-name">Buracos / Vias</div>
             <div class="cat-desc">Buracos, asfalto e problemas viários</div>
         </a>
-        <a href="./solicitacoes/criar.html" class="cat-card">
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
             <div class="cat-emoji">💡</div>
             <div class="cat-name">Iluminação Pública</div>
             <div class="cat-desc">Lâmpadas apagadas e postes com defeito</div>
         </a>
-        <a href="./solicitacoes/criar.html" class="cat-card">
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
             <div class="cat-emoji">🏫</div>
             <div class="cat-name">Segurança Escolar</div>
             <div class="cat-desc">Ocorrências em escolas e zonas escolares</div>
         </a>
-        <a href="./solicitacoes/criar.html" class="cat-card">
+        <a th:href="@{/solicitacoes/nova}" class="cat-card">
             <div class="cat-emoji">🧹</div>
             <div class="cat-name">Limpeza Urbana</div>
             <div class="cat-desc">Coleta de lixo e limpeza de ruas</div>
@@ -96,30 +153,14 @@
             </div>
         </div>
         <div class="steps-wrap">
-            <div class="step">
-                <div class="step-num">1</div>
-                <div class="step-title">Crie sua solicitação</div>
-                <div class="step-desc">Informe a categoria, bairro e descrição detalhada do problema</div>
-            </div>
-            <div class="step">
-                <div class="step-num">2</div>
-                <div class="step-title">Receba o protocolo</div>
-                <div class="step-desc">Um número único é gerado para você rastrear o caso</div>
-            </div>
-            <div class="step">
-                <div class="step-num">3</div>
-                <div class="step-title">Acompanhe o andamento</div>
-                <div class="step-desc">Consulte status e histórico de atualizações a qualquer momento</div>
-            </div>
-            <div class="step">
-                <div class="step-num">4</div>
-                <div class="step-title">Problema resolvido</div>
-                <div class="step-desc">A equipe municipal atualiza o status até o encerramento</div>
-            </div>
+            <div class="step"><div class="step-num">1</div><div class="step-title">Crie sua solicitação</div><div class="step-desc">Informe categoria, bairro e descrição detalhada do problema</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-title">Receba o protocolo</div><div class="step-desc">Um número único é gerado para você rastrear o caso</div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-title">Acompanhe o andamento</div><div class="step-desc">Consulte status e histórico a qualquer momento</div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-title">Problema resolvido</div><div class="step-desc">A equipe municipal atualiza até o encerramento</div></div>
         </div>
     </div>
 
-    <!-- CTA BANNER -->
+    <!-- CTA -->
     <div class="cta-banner">
         <div>
             <div class="cta-banner-title">Viu um problema na cidade?</div>
@@ -127,13 +168,40 @@
                 Já temos <strong th:text="${totalSolicitacoes}">0</strong> ocorrência(s) registrada(s). Registre a sua e faça a diferença!
             </div>
         </div>
-        <a href="./solicitacoes/criar.html" class="btn btn-primary btn-lg">
+        <a th:href="@{/solicitacoes/nova}" class="btn btn-primary btn-lg">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Criar Protocolo agora
         </a>
     </div>
 
 </div>
+
+<script>
+    var cur = 0, total = 3;
+    var track = document.getElementById('track');
+    var dotsEl = document.getElementById('dots');
+
+    // Cria dots
+    for (var i = 0; i < total; i++) {
+      var d = document.createElement('button');
+      d.className = 'dot' + (i===0?' active':'');
+      d.onclick = (function(idx){ return function(){ goTo(idx); }; })(i);
+      dotsEl.appendChild(d);
+    }
+
+    function goTo(n) {
+      cur = (n + total) % total;
+      track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+      document.querySelectorAll('.dot').forEach(function(d, i) {
+        d.classList.toggle('active', i === cur);
+      });
+    }
+
+    function move(dir) { goTo(cur + dir); }
+
+    // Auto-avança a cada 5s
+    setInterval(function(){ move(1); }, 5000);
+</script>
 
 </body>
 </html>
