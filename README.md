@@ -48,3 +48,10 @@ PortalCidadaoApplication.java
 
 Após a inicialização, o sistema estará disponível em:
 http://localhost:8080
+
+##  Logins
+
+PORTAL CIDADÃO — Login Criados automaticamente:
+-  Admin  : admin@prefeitura.gov.br / admin123
+-  Cidadão: joao@email.com / senha123
+-  Cidadão: maria@email.com / senha123
