@@ -144,27 +144,6 @@
                 </div>
             </div>
 
-            <div class="form-section">
-                <div class="form-section-title">
-                    <div class="icon">📷</div>
-                    Imagem
-                    <span style="font-weight:400;color:var(--text-muted);font-size:.75rem;margin-left:4px;">(opcional)</span>
-                </div>
-                <div class="upload-area" id="uploadArea"
-                     onclick="document.getElementById('imagem').click()"
-                     ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
-                    <input type="file" id="imagem" name="imagem" accept="image/*"
-                           style="display:none;" onchange="previewImagem(this)">
-                    <div id="uploadPlaceholder">
-                        <div style="font-size:2rem;margin-bottom:8px;">📁</div>
-                        <div style="font-size:.875rem;font-weight:600;color:var(--text-secondary);">Clique ou arraste uma imagem</div>
-                        <div style="font-size:.75rem;color:var(--text-muted);margin-top:4px;">PNG, JPG ou JPEG — máx. 5 MB</div>
-                    </div>
-                    <img id="uploadPreview" style="display:none;max-width:100%;max-height:200px;border-radius:var(--r-md);margin-top:12px;" alt="">
-                    <div id="uploadNome" style="display:none;font-size:.78rem;color:var(--g700);margin-top:8px;font-weight:600;"></div>
-                </div>
-            </div>
-
             <div style="display:flex;gap:12px;justify-content:flex-end;padding-top:8px;border-top:1px solid var(--border-soft);">
                 <a th:href="@{/}" class="btn btn-ghost">Cancelar</a>
                 <button type="reset" class="btn btn-outline" onclick="resetForm()">Limpar</button>

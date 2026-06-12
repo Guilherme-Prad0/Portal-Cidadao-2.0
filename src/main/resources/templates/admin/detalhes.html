@@ -138,16 +138,6 @@
                             <textarea class="form-control" name="descricao" rows="4"
                                       th:text="${solicitacao.descricao}"></textarea>
                         </div>
-                        <div th:if="${solicitacao.imagemPath}" style="margin-bottom:14px;">
-                            <div class="form-label">Imagem atual</div>
-                            <img th:src="@{/uploads/{f}(f=${solicitacao.imagemPath})}"
-                                 style="max-height:160px;border-radius:var(--r-md);border:1px solid var(--border);" alt="imagem">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Substituir imagem <span style="font-weight:400;color:var(--text-muted);">(opcional)</span></label>
-                            <input class="form-control" type="file" name="imagem" accept="image/*"
-                                   style="padding:8px;">
-                        </div>
                         <div style="display:flex;justify-content:flex-end;">
                             <button type="submit" class="btn btn-outline">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>

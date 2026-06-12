@@ -138,9 +138,11 @@
                     <span class="info-label">Bairro</span>
                     <span class="info-value" th:text="${solicitacao.bairro}"></span>
                 </div>
-                <div class="info-row">
+                <div class="info-row descricao-row">
                     <span class="info-label">Descrição</span>
-                    <span class="info-value" th:text="${solicitacao.descricao}"></span>
+                    <div class="descricao-value"
+                         th:text="${solicitacao.descricao}">
+                    </div>
                 </div>
                 <div class="info-row">
                     <span class="info-label">Aberto em</span>
