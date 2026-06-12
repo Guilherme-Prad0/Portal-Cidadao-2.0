@@ -32,7 +32,7 @@ public class AuthController {
             session.setAttribute("usuarioLogado", user);
             return "redirect:/";
         } catch (RuntimeException e) {
-            return "redirect:/login?erro=" + enc(e.getMessage());
+            return "redirect:/login?erro=login_invalido";
         }
     }
 
@@ -69,7 +69,7 @@ public class AuthController {
             session.setAttribute("isAdmin", true);
             return "redirect:/admin";
         } catch (RuntimeException e) {
-            return "redirect:/login?erro=" + enc(e.getMessage());
+            return "redirect:/login?erro=login_invalido";
         }
     }
 
